@@ -146,3 +146,38 @@ kubectl apply -f shop-eks/k8s/frontend-deployment.yaml
 kubectl apply -f shop-eks/k8s/frontend-service.yaml
 kubectl apply -f shop-eks/k8s/ingress.yaml
 ```
+
+# 7) Route 53 의 A-ALIAS 추가 (shop.gyowoon.shop → ALB) 
+```bash
+HZ_ID=$(aws route53 list-hosted-zones-by-name --dns-name $DOMAIN --query 'HostedZones[0].Id' --output text)
+ALB_DNS=$(kubectl -n shop get ingress shop-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+# ALB HostedZoneId 구하기
+ALB_HZ=$(aws elbv2 describe-load-balancers --names $(echo $ALB_DNS | cut -d'-' -f1-3) --region $REGION \
+  --query 'LoadBalancers[0].CanonicalHostedZoneId' --output text 2>/dev/null || true)
+# HostedZoneId 조회가 이름 기반으로 실패할 수 있어, 보조 방식(전체 검색)
+if [ "$ALB_HZ" = "None" ] || [ -z "$ALB_HZ" ]; then
+  ALB_HZ=$(aws elbv2 describe-load-balancers --region $REGION \
+    --query "LoadBalancers[?DNSName=='$ALB_DNS'].CanonicalHostedZoneId | [0]" --output text)
+fi
+
+cat > /tmp/rr.json <<JSON
+{
+  "Comment": "Alias to ALB for $FQDN",
+  "Changes": [{
+    "Action": "UPSERT",
+    "ResourceRecordSet": {
+      "Name": "$FQDN",
+      "Type": "A",
+      "AliasTarget": {
+        "HostedZoneId": "$ALB_HZ",
+        "DNSName": "$ALB_DNS",
+        "EvaluateTargetHealth": false
+      }
+    }
+  }]
+}
+JSON
+aws route53 change-resource-record-sets --hosted-zone-id $HZ_ID --change-batch file:///tmp/rr.json >/dev/null
+
+echo "[OK] Visit: http://$FQDN
+```
