@@ -1,0 +1,12 @@
+TF_DIR=./                # Terraform 파일 위치
+APP_DIR=./shop-eks       # k8s/, backend/, frontend/ 경로
+REGION=ap-northeast-2    # 리젼 설정 
+SSH_KEY=./Bastion-Key.pem # Bastion 접속을 위한 SSH 키 
+SSH_USER=ec2-user 
+IMAGE_TAG=latest
+DB_MASTER_USERNAME=admin
+DB_MASTER_PASSWORD=passWord
+DB_NAME=shopdb
+FQDN=shop.gyowoon.shop
+USE_ECR_SECRET=true
+JWT_SECRET_KEY=""        # 옵션. 빈 값이면 자동으로 생성

@@ -1,0 +1,91 @@
+1. aws cli 에서 사용중인 인증정보 확인하기 
+명령어/ aws sts get-caller-identity
+예상 출력/ 아래와 같이 <클러스터>-bastion-role 이라는 이름의 Role 로 인증되어 있음 
+{
+    "UserId": "AROAU4HOS6UAWMXSZLSQK:i-0b1a9cecd925f55d1",
+    "Account": "335507813633",
+    "Arn": "arn:aws:sts::335507813633:assumed-role/my-eks-shop-cluster-bastion-role/i-0b1a9cecd925f55d1"
+}
+
+2. kubectl로 접속할 클러스터 설정해주기(현재 생성된 클러스터를 참조하게끔)
+명령어/aws eks update-kubeconfig --region $REGION --name $CLUSTER_NAME
+예상 출력/ 처음에는 dial tcp...
+
+
+
+3. remote_deploy.sh 스크립트 실행하기 
+
+
+
+cf. << kubectl 명령어 >>
+
+1️⃣. 특정 deployment 재시작(여기서는 frontend)
+kubectl rollout restart deployment/frontend -n shop
+
+# 재시작 상태 확인
+kubectl rollout status deployment/frontend -n shop
+
+# Pod 상태 확인
+kubectl get pods -n shop -l app=frontend
+
+
+2️⃣. 디플로이 이름 조회 
+kubectl get deployments -n shop
+
+
+
+- k8s의 모든 네임스페이스 조회하기 
+명령어/ kubectl get ns
+
+- 특정 네임스페이스 리소스 조회하기 
+명령어/ kubectl -n <특정 네임스페이스> get pods
+명령어/ kubectl -n <특정 네임스페이스> get all 
+
+- 디플로이먼트 삭제 
+명령어/kubectl delete deployment backend -n <특정 네임스페이스>
+
+- 디플로이먼트의 서비스어카운트 조회
+명령어/kubectl -n shop get deploy <특정 디플로 > -o jsonpath='{.spec.template.spec.serviceAccountName}'
+
+- 디플로이먼트의 서비스어카운트 변경 
+명령어/ kubectl -n shop patch deployment <특정 디플로> -p '{"spec":{"template":{"spec":{"serviceAccountName":"shopping-mall-sa"}}}}'
+
+- 시크릿 키 값 확인 
+# 시크릿에 어떤 키들이 있는지 확인
+kubectl -n shop get secret shop-secrets -o jsonpath="{.data}" | jq
+
+# 특정 키의 값을 base64로 디코딩해 확인
+kubectl -n shop get secret shop-secrets -o jsonpath="{.data.DB_URI}" | base64 -d
+kubectl -n shop get secret shop-secrets -o jsonpath="{.data.JWT_SECRET_KEY}" | base64 -d
+kubectl -n shop get secret shop-secrets -o jsonpath="{.data.REDIS_URL}" | base64 -d
+
+- 디플로이먼트의 참조중인 환경변수 확인 
+kubectl -n shop get deploy backend -o jsonpath='{.spec.template.spec.containers[0].env}'
+
+
+⚠️⚠️ 테라폼이 관리하는 리소스 & kubectl이 관리하는 리소스는 반드시 구분해둘 것!
+-> 그래야 관리가 편해짐
+
+
+cf. 파란색으로 프롬프트 표시하기
+export PS1="\[\e[1;34m\][\u@\h \w]\\$ \[\e[0m\]"
+
+
+
+
+⚠️⚠️ aws configure 삭제
+# 2-1. AWS 자격 환경변수 제거
+unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_PROFILE
+
+# 2-2. (가장 확실) 로컬 자격 파일을 잠시 치움
+mkdir -p ~/.aws
+[ -f ~/.aws/credentials ] && mv ~/.aws/credentials ~/.aws/credentials.bak.$(date +%s)
+[ -f ~/.aws/config ]      && mv ~/.aws/config      ~/.aws/config.bak.$(date +%s)
+⚠️⚠️ 현재 구조에서는 aws configure 명령어 안쓰는게 좋음 
+
+
+kubectl annotate service backend -n shop
+
+----
+
+
