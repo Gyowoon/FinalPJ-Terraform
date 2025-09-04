@@ -1,0 +1,109 @@
+#1. LBC IAM Policy Creation #
+## 정책이 없으면 생성, 있으면 재사용##
+######################################
+if ! aws iam list-policies --scope Local \
+  --query "Policies[?PolicyName=='AWSLoadBalancerControllerIAMPolicy'].Arn | [0]" \
+  --output text | grep -q '^arn:'; then
+  curl -sS -o iam_policy.json \
+    https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.13.4/docs/install/iam_policy.json
+  aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam_policy.json >/dev/null
+fi
+
+POLICY_ARN=$(aws iam list-policies --scope Local \
+  --query "Policies[?PolicyName=='AWSLoadBalancerControllerIAMPolicy'].Arn | [0]" \
+  --output text)
+echo "POLICY_ARN=${POLICY_ARN}"
+
+#2.EKS PIA(Pod Identity Association) 
+## 위와 같이 없으면 Role 생성, 있으면 재활용##
+## EKS Pod Identity Role CREATION & ASSO the Policyi ##
+######################################
+ROLE_NAME=AmazonEKSLoadBalancerControllerRole
+
+if ! aws iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
+  cat > lbc-trust.json <<'JSON'
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": { "Service": "pods.eks.amazonaws.com" },
+    "Action": [ "sts:AssumeRole", "sts:TagSession" ]
+  }]
+}
+JSON
+  aws iam create-role \
+    --role-name "$ROLE_NAME" \
+    --assume-role-policy-document file://lbc-trust.json >/dev/null
+fi
+
+# 정책이 안 붙어 있으면 부착
+if ! aws iam list-attached-role-policies --role-name "$ROLE_NAME" \
+  --query "AttachedPolicies[?PolicyName=='AWSLoadBalancerControllerIAMPolicy']" \
+  --output text | grep -q . ; then
+  aws iam attach-role-policy --role-name "$ROLE_NAME" --policy-arn "$POLICY_ARN"
+fi
+
+ROLE_ARN=$(aws iam get-role --role-name "$ROLE_NAME" --query 'Role.Arn' --output text)
+echo "ROLE_ARN=${ROLE_ARN}"
+
+#3.#############################
+# CRAETE SA and Distribute to -n kube-system throw HELM
+################################
+helm repo add eks https://aws.github.io/eks-charts >/dev/null || true
+helm repo update >/dev/null
+
+VPC_ID=$(aws eks describe-cluster --name "$CLUSTER_NAME" --region "$REGION" \
+          --query "cluster.resourcesVpcConfig.vpcId" --output text)
+
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system --create-namespace \
+  --set clusterName="$CLUSTER_NAME" \
+  --set region="$REGION" \
+  --set vpcId="$VPC_ID" \
+  --set serviceAccount.create=true \
+  --set serviceAccount.name=aws-load-balancer-controller
+
+#4.#############################
+# Pod Identity Asso 
+# 이미 존재하면 에러 무시
+aws eks create-pod-identity-association \
+  --cluster-name "$CLUSTER_NAME" \
+  --namespace kube-system \
+  --service-account aws-load-balancer-controller \
+  --role-arn "$ROLE_ARN" >/dev/null || true
+
+# 확인
+aws eks list-pod-identity-associations \
+  --cluster-name "$CLUSTER_NAME" --region "$REGION" \
+  --query "associations[?serviceAccount=='aws-load-balancer-controller' && namespace=='kube-system']"
+
+#5. Verification##################
+# 
+kubectl -n kube-system get sa aws-load-balancer-controller
+kubectl -n kube-system get deploy aws-load-balancer-controller
+kubectl -n kube-system rollout status deploy/aws-load-balancer-controller --timeout=3m
+# 여기서 문제 발생, 아래 입력 후 해결 
+kubectl -n kube-system rollout restart deploy/aws-load-balancer-controller
+kubectl -n kube-system rollout status  deploy/aws-load-balancer-controller --timeout=3m
+
+### Ref
+# # 사소한 어노테이션 변경으로 리콘실리에이션 유도
+#kubectl -n shop annotate ing shop-ingress "alb.ingress.kubernetes.io/target-type"="ip" --overwrite || true
+
+# (필요 시) 재적용
+# kubectl -n shop apply -f k8s/ingress.yaml
+
+# ALB DNS가 채워졌는지 확인 루프
+#for i in {1..30}; do
+#  H=$(kubectl -n shop get ing shop-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null || true)
+#  [[ -n "${H:-}" ]] && echo "ALB DNS: $H" && break
+#  sleep 5
+#done
+
+# 여전히 비어있다면 컨트롤러 로그에서 원인 확인
+#kubectl -n kube-system logs deploy/aws-load-balancer-controller | \
+#  egrep -i 'shop-ingress|error|fail|certificate|subnet|permission|model' || true
+
+

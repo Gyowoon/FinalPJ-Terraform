@@ -1,0 +1,176 @@
+#!/bin/bash
+set -euo pipefail
+
+# This script runs on the bastion host.  It uses the bastion's IAM role
+# to authenticate against AWS services (ECR/EKS) so ensure the instance
+# profile attached to the bastion has sufficient permissions.
+
+# Required environment variables passed from the caller:
+#   REGION, CLUSTER_NAME, ACCOUNT_ID, IMAGE_TAG, ECR_REGISTRY
+#   RDS_ENDPOINT, REDIS_ENDPOINT, DB_MASTER_USERNAME, DB_MASTER_PASSWORD, DB_NAME
+#   USE_ECR_SECRET, JWT_SECRET_KEY (optional)
+
+# Use defaults if variables are empty
+REGION=${REGION:-"ap-northeast-2"}
+IMAGE_TAG=${IMAGE_TAG:-"latest"}
+ECR_REGISTRY=${ECR_REGISTRY:-""}
+CLUSTER_NAME=${CLUSTER_NAME:-""}
+RDS_ENDPOINT=${RDS_ENDPOINT:-""}
+REDIS_ENDPOINT=${REDIS_ENDPOINT:-""}
+DB_MASTER_USERNAME=${DB_MASTER_USERNAME:-""}
+DB_MASTER_PASSWORD=${DB_MASTER_PASSWORD:-""}
+DB_NAME=${DB_NAME:-""}
+USE_ECR_SECRET=${USE_ECR_SECRET:-"false"}
+JWT_SECRET_KEY=${JWT_SECRET_KEY:-""}
+
+if [[ -z "$CLUSTER_NAME" ]]; then
+  echo "Cluster name must be provided" >&2; exit 1
+fi
+if [[ -z "$ECR_REGISTRY" ]]; then
+  echo "ECR registry must be provided" >&2; exit 1
+fi
+if [[ -z "$DB_MASTER_USERNAME" || -z "$DB_MASTER_PASSWORD" || -z "$DB_NAME" ]]; then
+  echo "Database credentials must be provided" >&2; exit 1
+fi
+
+echo "[Remote] Using cluster $CLUSTER_NAME in region $REGION"
+echo "[Remote] ECR registry is $ECR_REGISTRY"
+
+#### 1. Authenticate to ECR and create repositories if needed
+###aws ecr get-login-password --region "$REGION" | sudo docker login --username AWS --password-stdin "$ECR_REGISTRY"
+###
+###if ! aws ecr describe-repositories --repository-names shop-backend --region "$REGION" >/dev/null 2>&1; then
+###  aws ecr create-repository --repository-name shop-backend --region "$REGION"
+###fi
+###if ! aws ecr describe-repositories --repository-names shop-frontend --region "$REGION" >/dev/null 2>&1; then
+###  aws ecr create-repository --repository-name shop-frontend --region "$REGION"
+###fi
+
+#### 2. Build and push backend image
+###echo "[Remote] Building backend image"
+###cd backend
+###sudo docker build -t shop-backend:"$IMAGE_TAG" \
+###  -t "$ECR_REGISTRY/shop-backend:$IMAGE_TAG" \
+###  -t "$ECR_REGISTRY/shop-backend:latest" .
+###sudo docker push "$ECR_REGISTRY/shop-backend:$IMAGE_TAG"
+###sudo docker push "$ECR_REGISTRY/shop-backend:latest"
+###cd ..
+###
+#### 3. Build and push frontend image
+###echo "[Remote] Building frontend image"
+###cd frontend
+###sudo docker build -t shop-frontend:"$IMAGE_TAG" \
+###  -t "$ECR_REGISTRY/shop-frontend:$IMAGE_TAG" \
+###  -t "$ECR_REGISTRY/shop-frontend:latest" .
+###sudo docker push "$ECR_REGISTRY/shop-frontend:$IMAGE_TAG"
+###sudo docker push "$ECR_REGISTRY/shop-frontend:latest"
+###cd ..
+###
+# 4. Update kubeconfig using the bastion's IAM role.  The bastion
+# instance profile must have permission to call eks:DescribeCluster and
+# eks:GetToken, and its role must be mapped into the cluster RBAC via
+# an access entry or the aws‑auth ConfigMap.
+aws eks update-kubeconfig --region "$REGION" --name "$CLUSTER_NAME" --alias "$CLUSTER_NAME"
+
+### USE ARGO-INSTALL.sh INSTEAD ###
+#### 5. Install Argo CD CLI and deploy Argo CD via Helm.  The bastion
+#### already has Helm installed (see user_data in the Terraform for
+#### aws_instance.bastion).  We first install the argocd CLI for
+#### convenience, then use Helm to deploy the Argo CD chart into the
+#### cluster.  The upgrade --install command makes this idempotent so
+#### re‑running the script does not cause failures.
+###echo "[Remote] Installing Argo CD CLI and Helm chart"
+###
+#### Install argocd CLI if not already present
+###if ! command -v argocd >/dev/null 2>&1; then
+###  sudo curl -sSL -o /usr/local/bin/argocd \
+###    https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+###  sudo chmod +x /usr/local/bin/argocd
+###fi
+###
+#### Ensure the argocd namespace exists
+###kubectl get ns argocd >/dev/null 2>&1 || kubectl create namespace argocd
+###
+#### Add the Argo Helm repository and update the repo cache
+###helm repo add argo https://argoproj.github.io/argo-helm >/dev/null 2>&1 || true
+###helm repo update >/dev/null 2>&1
+###
+#### Install or upgrade the argo-cd release.  We set the service type to
+#### LoadBalancer so that an external endpoint is created automatically.
+###helm upgrade --install argo-cd argo/argo-cd \
+###  --namespace argocd \
+###  --set server.service.type=LoadBalancer
+###
+#### Wait for the Argo CD server deployment to become available
+###kubectl -n argocd rollout status deployment/argo-cd-argocd-server
+
+#### 6. Ensure the namespace and service account exist
+###kubectl get ns shop >/dev/null 2>&1 || kubectl create namespace shop
+###kubectl get serviceaccount shopping-mall-sa -n shop >/dev/null 2>&1 || kubectl create serviceaccount shopping-mall-sa -n shop
+
+### DO NOT USE THIS ECR_SECRET
+#### 7. Optionally create imagePullSecret and attach to service account
+###if [[ "$USE_ECR_SECRET" == "true" ]]; then
+###  echo "[Remote] Creating image pull secret"
+###  aws ecr get-login-password --region "$REGION" | kubectl create secret generic ecr-secret \
+###    --namespace shop --type=kubernetes.io/dockerconfigjson \
+###    --from-file=.dockerconfigjson=/dev/stdin --dry-run=client -o yaml | kubectl apply -f -
+###  kubectl patch serviceaccount shopping-mall-sa -n shop -p '{"imagePullSecrets":[{"name":"ecr-secret"}]}'
+###fi
+
+#### 8. Create application secret containing DB and Redis connection strings
+###DB_URI="mysql+pymysql://${DB_MASTER_USERNAME}:${DB_MASTER_PASSWORD}@${RDS_ENDPOINT}:3306/${DB_NAME}?charset=utf8mb4"
+###REDIS_URL="redis://${REDIS_ENDPOINT}:6379"
+###
+###if [[ -z "$JWT_SECRET_KEY" ]]; then
+###  # Generate a random JWT secret if one was not provided
+###  JWT_SECRET_KEY=$(openssl rand -hex 32)
+###fi
+###
+###kubectl delete secret shop-secrets -n shop >/dev/null 2>&1 || true
+###kubectl create secret generic shop-secrets -n shop \
+###  --from-literal=DB_URI="$DB_URI" \
+###  --from-literal=REDIS_URL="$REDIS_URL" \
+###  --from-literal=JWT_SECRET_KEY="$JWT_SECRET_KEY"
+
+# 9. Deploy manifests and patch deployments
+echo "[Remote] Applying Kubernetes manifests"
+# The k8s directory is synced from the local machine.  Apply each manifest
+# individually so that partial failures don't stop the script.  The
+# namespaces manifest may already exist, so ignore errors for it.
+kubectl apply -n shop -f k8s/namespaces.yaml || true
+kubectl apply -n shop -f k8s/backend-service.yaml
+kubectl apply -n shop -f k8s/frontend-service.yaml
+kubectl apply -n shop -f k8s/ingress.yaml
+kubectl apply -n shop -f k8s/backend-deployment.yaml
+kubectl apply -n shop -f k8s/frontend-deployment.yaml
+
+# Force the service account on the deployments.  If the field already exists
+# this patch will replace it.  JSON Patch is used to avoid YAML formatting
+# issues.
+kubectl -n shop patch deployment backend  --type='json' \
+  -p='[{"op":"add","path":"/spec/template/spec/serviceAccountName","value":"shopping-mall-sa"}]'
+kubectl -n shop patch deployment frontend --type='json' \
+  -p='[{"op":"add","path":"/spec/template/spec/serviceAccountName","value":"shopping-mall-sa"}]'
+
+# Update container images to point at the correct ECR registry and tag
+kubectl -n shop set image deployment/backend  backend="$ECR_REGISTRY/shop-backend:$IMAGE_TAG"
+kubectl -n shop set image deployment/frontend frontend="$ECR_REGISTRY/shop-frontend:$IMAGE_TAG"
+
+# 10. Wait for the deployments to become available
+echo "[Remote] Waiting for rollout to complete"
+kubectl -n shop rollout status deployment/backend
+kubectl -n shop rollout status deployment/frontend
+
+echo "[Remote] Deployment completed successfully"
+
+## Secret Raw Value Check 
+# 
+# kubectl get secret shop-secrets -n shop -o jsonpath='{.data}' \
+#  | jq -r 'to_entries[] | "\(.key) \(.value)"' \
+#  | while read key b64; do
+#      echo -n "$key: "
+#      echo "$b64" | base64 --decode
+#      echo
+#    done
+# 
