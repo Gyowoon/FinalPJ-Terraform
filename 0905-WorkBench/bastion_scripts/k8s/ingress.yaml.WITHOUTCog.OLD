@@ -1,0 +1,61 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shop-ingress
+  namespace: shop
+  labels:
+    app: shop-ingress
+  annotations:
+    # ALB Controller configurations
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+
+    ## Allow HTTP & HTTPS 
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+
+    ## ACM Certificate 
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:335507813633:certificate/fabebd3c-7462-44cd-aa98-fdffeb892550 
+    
+    # HTTP → HTTPS Redirect 
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+
+    # Health check configurations
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-path: /api/health
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/success-codes: "200"
+    
+    # Load balancer attributes
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
+    
+    
+spec:
+  ingressClassName: alb
+  rules:
+  - host: shop.gyowoon.shop  # Your actual domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              name: http
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              name: http
+  
+  # Uncomment when SSL certificate is ready
+  # tls:
+  # - hosts:
+  #   - shop.gyowoon.shop
+  #   secretName: shop-tls-secret
