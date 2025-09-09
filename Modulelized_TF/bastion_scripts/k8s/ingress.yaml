@@ -1,0 +1,55 @@
+# Cognito Added Version
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shop-ingress
+  namespace: shop
+  labels:
+    app: shop-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:335507813633:certificate/fabebd3c-7462-44cd-aa98-fdffeb892550
+
+    # Health check/attributes (기존 유지)
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/success-codes: "200"
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
+
+    # Cognito 인증
+    alb.ingress.kubernetes.io/auth-type: cognito
+    alb.ingress.kubernetes.io/auth-scope: openid email profile
+    alb.ingress.kubernetes.io/auth-session-cookie: alb-auth
+    alb.ingress.kubernetes.io/auth-session-timeout: '604800'
+    alb.ingress.kubernetes.io/auth-on-unauthenticated-request: authenticate
+    alb.ingress.kubernetes.io/auth-idp-cognito: >
+      {"UserPoolArn":"arn:aws:cognito-idp:ap-northeast-2:335507813633:userpool/ap-northeast-2_STFjEClND",
+       "UserPoolClientId":"4vhhtuci611k2u8un2lvtk37lh",
+       "UserPoolDomain":"ap-northeast-2stfjeclnd.auth.ap-northeast-2.amazoncognito.com"}
+spec:
+  ingressClassName: alb
+  rules:
+  - host: shop.gyowoon.shop
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: shop-frontend
+            port:
+              name: http
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: shop-backend
+            port:
+              name: http

@@ -1,0 +1,49 @@
+== Bootstrap started Tue, Sep  9, 2025 11:49:35 AM ==
+
+==================== Running terraform apply =====================
+[0m[1mInitializing the backend...[0m
+[0m[1mUpgrading modules...[0m
+- bastion in modules\BASTION
+- dns in modules\DNS
+- eks in modules\EKS
+- rds in modules\RDS
+- redis in modules\REDIS
+- vpc in modules\VPC
+[0m[1mInitializing provider plugins...[0m
+- Finding hashicorp/aws versions matching "~> 5.0"...
+- Finding hashicorp/kubernetes versions matching "~> 2.23"...
+- Using previously-installed hashicorp/aws v5.100.0
+- Using previously-installed hashicorp/kubernetes v2.38.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mUnsupported attribute[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on main-root.tf line 171, in resource "aws_instance" "bastion":
+[31m│[0m [0m 171:   iam_instance_profile        = module.bastion[4m.instance_profile_name[0m[0m
+[31m│[0m [0m    [90m├────────────────[0m
+[31m│[0m [0m[0m    [90m│[0m [1mmodule.bastion[0m is a object
+[31m│[0m [0m[0m
+[31m│[0m [0mThis object does not have an attribute named "instance_profile_name".
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mReference to undeclared resource[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on main-root.tf line 257, in resource "kubernetes_cluster_role_binding" "bastion_admin":
+[31m│[0m [0m 257:     [4maws_eks_access_entry.bastion[0m,[0m
+[31m│[0m [0m
+[31m│[0m [0mA managed resource "aws_eks_access_entry" "bastion" has not been declared
+[31m│[0m [0min the root module.
+[31m╵[0m[0m
+
+❌ ERROR: line 147 while running: terraform -chdir="$TF_DIR" apply -auto-approve (exit=1)
+👉 Full log: ./logs/bootstrap_20250909_114935.log
+Dropping you into interactive shell (type: exit to quit)

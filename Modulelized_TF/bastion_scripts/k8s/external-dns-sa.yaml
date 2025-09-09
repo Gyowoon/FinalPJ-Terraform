@@ -1,0 +1,7 @@
+# external-dns-sa.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: external-dns
+  namespace: kube-system
+

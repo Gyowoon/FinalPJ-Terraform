@@ -1,0 +1,69 @@
+== Bootstrap started Tue, Sep  9, 2025  9:48:21 AM ==
+
+==================== Running terraform apply =====================
+[0m[1mInitializing the backend...[0m
+[0m[1mUpgrading modules...[0m
+- bastion in modules\BASTION
+- dns in modules\DNS
+- eks in modules\EKS
+- rds in modules\RDS
+- redis in modules\REDIS
+- vpc in modules\VPC
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 27:
+[31m│[0m [0m  27: [4moutput "vpc_id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "vpc_id" was already defined at outputs.tf:1,1-16. Output
+[31m│[0m [0mnames must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 31:
+[31m│[0m [0m  31: [4moutput "cluster_endpoint"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "cluster_endpoint" was already defined at
+[31m│[0m [0moutputs.tf:5,1-26. Output names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 35:
+[31m│[0m [0m  35: [4moutput "cluster_name"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "cluster_name" was already defined at outputs.tf:9,1-22.
+[31m│[0m [0mOutput names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 39:
+[31m│[0m [0m  39: [4moutput "shopping_mall_service_account"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "shopping_mall_service_account" was already defined at
+[31m│[0m [0moutputs.tf:13,1-39. Output names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 43:
+[31m│[0m [0m  43: [4moutput "shopping_mall_role_arn"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "shopping_mall_role_arn" was already defined at
+[31m│[0m [0moutputs.tf:17,1-32. Output names must be unique within a module.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate output definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on outputs.tf line 47:
+[31m│[0m [0m  47: [4moutput "pod_identity_association_id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mAn output named "pod_identity_association_id" was already defined at
+[31m│[0m [0moutputs.tf:21,1-37. Output names must be unique within a module.
+[31m╵[0m[0m
+
+❌ ERROR: line 146 while running: terraform -chdir="$TF_DIR" init -upgrade (exit=1)
+👉 Full log: ./logs/bootstrap_20250909_094821.log
+Dropping you into interactive shell (type: exit to quit)

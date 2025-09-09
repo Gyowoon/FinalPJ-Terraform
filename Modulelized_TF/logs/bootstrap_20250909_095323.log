@@ -1,0 +1,49 @@
+== Bootstrap started Tue, Sep  9, 2025  9:53:23 AM ==
+
+==================== Running terraform apply =====================
+[0m[1mInitializing the backend...[0m
+[0m[1mUpgrading modules...[0m
+- bastion in modules\BASTION
+- dns in modules\DNS
+- eks in modules\EKS
+- rds in modules\RDS
+- redis in modules\REDIS
+- vpc in modules\VPC
+[0m[1mInitializing provider plugins...[0m
+- Finding hashicorp/kubernetes versions matching "~> 2.23"...
+- Finding hashicorp/aws versions matching "~> 5.0"...
+- Using previously-installed hashicorp/kubernetes v2.38.0
+- Using previously-installed hashicorp/aws v5.100.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mReference to undeclared resource[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on main-root.tf line 260, in resource "kubernetes_cluster_role_binding" "bastion_admin":
+[31m│[0m [0m 260:     [4maws_eks_cluster.eks[0m,[0m
+[31m│[0m [0m
+[31m│[0m [0mA managed resource "aws_eks_cluster" "eks" has not been declared in the
+[31m│[0m [0mroot module.
+[31m│[0m [0m
+[31m│[0m [0mDid you mean the data resource data.aws_eks_cluster.eks?
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mexpected type to be one of ["EC2" "EC2_LINUX" "EC2_WINDOWS" "FARGATE_LINUX" "HYBRID_LINUX" "STANDARD"], got IAM[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.bastion.aws_eks_access_entry.bastion,
+[31m│[0m [0m  on modules\BASTION\main.tf line 171, in resource "aws_eks_access_entry" "bastion":
+[31m│[0m [0m 171:   type             = [4m"IAM"[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+
+❌ ERROR: line 147 while running: terraform -chdir="$TF_DIR" apply -auto-approve (exit=1)
+👉 Full log: ./logs/bootstrap_20250909_095323.log
+Dropping you into interactive shell (type: exit to quit)

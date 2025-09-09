@@ -1,0 +1,131 @@
+== Bootstrap started Tue, Sep  9, 2025 12:00:55 PM ==
+
+==================== Running terraform apply =====================
+[0m[1mInitializing the backend...[0m
+[0m[1mUpgrading modules...[0m
+- bastion in modules\BASTION
+- dns in modules\DNS
+- eks in modules\EKS
+- rds in modules\RDS
+- redis in modules\REDIS
+- vpc in modules\VPC
+[0m[1mInitializing provider plugins...[0m
+- Finding hashicorp/aws versions matching "~> 5.0"...
+- Finding hashicorp/kubernetes versions matching "~> 2.23"...
+- Using previously-installed hashicorp/aws v5.100.0
+- Using previously-installed hashicorp/kubernetes v2.38.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[0m[1mmodule.redis.aws_elasticache_parameter_group.redis: Refreshing state... [id=my-eks-shop-cluster-redis-params][0m
+[0m[1mmodule.bastion.data.aws_ami.bastion: Reading...[0m[0m
+[0m[1mmodule.vpc.aws_eip.nat_eip: Refreshing state... [id=eipalloc-0f1db75f28753c751][0m
+[0m[1mdata.aws_ami.bastion: Reading...[0m[0m
+[0m[1mmodule.vpc.aws_vpc.main: Refreshing state... [id=vpc-0f01002dc010c4797][0m
+[0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+[0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=335507813633][0m
+[0m[1mmodule.eks.aws_iam_role.shopping_mall_role: Refreshing state... [id=ShoppingMallPodRole-335507813633-my-eks-shop-cluster][0m
+[0m[1mmodule.eks.aws_iam_role.eks_node: Refreshing state... [id=YourEKSNodeRole-335507813633-my-eks-shop-cluster][0m
+[0m[1mmodule.bastion.aws_iam_role.bastion: Refreshing state... [id=bastion-role-335507813633-my-eks-shop-cluster][0m
+[0m[1mmodule.eks.aws_iam_role.eks_cluster: Refreshing state... [id=YourEKSClusterRole-335507813633-my-eks-shop-cluster][0m
+[0m[1mdata.aws_ami.bastion: Read complete after 0s [id=ami-0ae2c887094315bed][0m
+[0m[1mmodule.bastion.data.aws_ami.bastion: Read complete after 0s [id=ami-068d7b3dd93d9c2a6][0m
+[0m[1mmodule.vpc.aws_internet_gateway.igw: Refreshing state... [id=igw-0e5181c15c62846dd][0m
+[0m[1mmodule.vpc.aws_subnet.public1: Refreshing state... [id=subnet-0fc3462a545a1041d][0m
+[0m[1mmodule.vpc.aws_subnet.public2: Refreshing state... [id=subnet-0ebd02cda259e72d5][0m
+[0m[1mmodule.vpc.aws_subnet.private1: Refreshing state... [id=subnet-0baacecc2ecd21547][0m
+[0m[1mmodule.rds.aws_security_group.db: Refreshing state... [id=sg-038e19791877a2518][0m
+[0m[1maws_security_group.bastion: Refreshing state... [id=sg-0833ba59249d9714e][0m
+[0m[1mmodule.vpc.aws_subnet.private2: Refreshing state... [id=subnet-0b539bfe5869b67f8][0m
+[0m[1mmodule.bastion.aws_security_group.bastion: Refreshing state... [id=sg-0c2ad7e58e7ac58a9][0m
+[0m[1mmodule.redis.aws_security_group.redis: Refreshing state... [id=sg-08dd492efd4d3130a][0m
+[0m[1mmodule.vpc.aws_route_table.public: Refreshing state... [id=rtb-095273ac8a96176ac][0m
+[0m[1mmodule.vpc.aws_nat_gateway.nat: Refreshing state... [id=nat-073ea2b1671d2581e][0m
+[0m[1mmodule.redis.aws_elasticache_subnet_group.redis: Refreshing state... [id=my-eks-shop-cluster-redis-subnet-group][0m
+[0m[1mmodule.rds.aws_db_subnet_group.db: Refreshing state... [id=my-eks-shop-cluster-db-subnet-group][0m
+[0m[1mmodule.vpc.aws_route_table.private: Refreshing state... [id=rtb-0cc039baa7fd7cb2a][0m
+[0m[1mmodule.vpc.aws_route_table_association.public1: Refreshing state... [id=rtbassoc-066bd064f99d2da3b][0m
+[0m[1mmodule.vpc.aws_route_table_association.public2: Refreshing state... [id=rtbassoc-09325d97ceeba47cf][0m
+[0m[1mmodule.vpc.aws_route_table_association.private2: Refreshing state... [id=rtbassoc-0cae7777f4c26d464][0m
+[0m[1mmodule.vpc.aws_route_table_association.private1: Refreshing state... [id=rtbassoc-00aebced3ead895c5][0m
+[0m[1mmodule.redis.aws_elasticache_cluster.redis: Refreshing state... [id=my-eks-shop-cluster-redis][0m
+[0m[1mmodule.rds.aws_db_instance.db: Refreshing state... [id=db-LBRKWC7AXVYCOOUQMJSCFJA7VE][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_policies[0]: Refreshing state... [id=YourEKSClusterRole-335507813633-my-eks-shop-cluster-20250909011040448500000007][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_policies[1]: Refreshing state... [id=YourEKSClusterRole-335507813633-my-eks-shop-cluster-2025090901104088920000000a][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_policies[4]: Refreshing state... [id=YourEKSClusterRole-335507813633-my-eks-shop-cluster-20250909011040658100000009][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_policies[2]: Refreshing state... [id=YourEKSClusterRole-335507813633-my-eks-shop-cluster-20250909011040616400000008][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.cluster_policies[3]: Refreshing state... [id=YourEKSClusterRole-335507813633-my-eks-shop-cluster-2025090901104121370000000b][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.node_policies[1]: Refreshing state... [id=YourEKSNodeRole-335507813633-my-eks-shop-cluster-20250909011040333400000005][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.node_policies[2]: Refreshing state... [id=YourEKSNodeRole-335507813633-my-eks-shop-cluster-20250909011040172500000004][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.node_policies[0]: Refreshing state... [id=YourEKSNodeRole-335507813633-my-eks-shop-cluster-20250909011040116500000003][0m
+[0m[1mmodule.eks.aws_iam_role_policy_attachment.shopping_mall_ecr_policy: Refreshing state... [id=ShoppingMallPodRole-335507813633-my-eks-shop-cluster-20250909011040377100000006][0m
+[0m[1mmodule.eks.aws_iam_role_policy.shopping_mall_policy: Refreshing state... [id=ShoppingMallPodRole-335507813633-my-eks-shop-cluster:ShoppingMallPolicy-335507813633-my-eks-shop-cluster][0m
+[0m[1mmodule.bastion.aws_eks_access_entry.bastion: Refreshing state... [id=my-eks-shop-cluster:arn:aws:iam::335507813633:role/bastion-role-335507813633-my-eks-shop-cluster][0m
+[0m[1mmodule.bastion.aws_iam_instance_profile.bastion: Refreshing state... [id=bastion-profile-335507813633-my-eks-shop-cluster][0m
+[0m[1mmodule.bastion.aws_iam_role_policy.bastion: Refreshing state... [id=bastion-role-335507813633-my-eks-shop-cluster:bastion-policy-335507813633-my-eks-shop-cluster][0m
+[0m[1mmodule.eks.aws_eks_cluster.eks: Refreshing state... [id=my-eks-shop-cluster][0m
+[0m[1mmodule.eks.aws_eks_addon.vpc_cni: Refreshing state... [id=my-eks-shop-cluster:vpc-cni][0m
+[0m[1mdata.aws_eks_cluster.eks: Reading...[0m[0m
+[0m[1mmodule.eks.aws_eks_addon.kube_proxy: Refreshing state... [id=my-eks-shop-cluster:kube-proxy][0m
+[0m[1mmodule.eks.aws_eks_addon.pod_identity_agent: Refreshing state... [id=my-eks-shop-cluster:eks-pod-identity-agent][0m
+[0m[1mdata.aws_eks_cluster_auth.eks: Reading...[0m[0m
+[0m[1mdata.aws_eks_cluster_auth.eks: Read complete after 0s [id=my-eks-shop-cluster][0m
+[0m[1mdata.aws_eks_cluster.eks: Read complete after 0s [id=my-eks-shop-cluster][0m
+[0m[1mmodule.eks.aws_eks_node_group.nodes: Refreshing state... [id=my-eks-shop-cluster:YourEKSNodeGroups][0m
+[0m[1mmodule.bastion.aws_instance.bastion: Refreshing state... [id=i-03e7ff430137cc436][0m
+[0m[1mmodule.eks.aws_eks_addon.coredns: Refreshing state... [id=my-eks-shop-cluster:coredns][0m
+[0m[1mmodule.eks.kubernetes_namespace.shop: Refreshing state... [id=shop][0m
+[0m[1mmodule.eks.kubernetes_service_account.shopping_mall: Refreshing state... [id=shop/shopping-mall-sa][0m
+[0m[1mmodule.eks.aws_eks_pod_identity_association.shopping_mall: Refreshing state... [id=a-90idhlfet1wps08vr][0m
+[0m[1mmodule.dns.aws_iam_policy.external_dns: Refreshing state... [id=arn:aws:iam::335507813633:policy/external-dns-route53-policy-335507813633-my-eks-shop-cluster][0m
+[0m[1mmodule.dns.aws_iam_role.external_dns: Refreshing state... [id=external-dns-pod-identity-role-335507813633-my-eks-shop-cluster][0m
+[0m[1mkubernetes_cluster_role_binding.bastion_admin: Refreshing state... [id=bastion-admin-binding][0m
+[0m[1maws_instance.bastion: Refreshing state... [id=i-009f980b21723d546][0m
+[0m[1mmodule.dns.aws_iam_role_policy_attachment.external_dns_attach: Refreshing state... [id=external-dns-pod-identity-role-335507813633-my-eks-shop-cluster-20250909005943804700000002][0m
+[0m[1mmodule.dns.aws_eks_pod_identity_association.external_dns: Refreshing state... [id=a-hlihk7ffnnt2jykq8][0m
+
+Changes to Outputs:
+  [31m-[0m[0m db_endpoint            = "my-eks-shop-cluster-db.cb0k6umqm9t7.ap-northeast-2.rds.amazonaws.com:3306" [90m-> null[0m[0m
+  [32m+[0m[0m rds_endpoint           = "my-eks-shop-cluster-db.cb0k6umqm9t7.ap-northeast-2.rds.amazonaws.com:3306"
+  [32m+[0m[0m redis_port             = 6379
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+[0m[1m[32m
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mbastion_dns = "ec2-3-39-224-158.ap-northeast-2.compute.amazonaws.com"
+bastion_public_ip = "3.39.224.158"
+cluster_endpoint = "https://D0F50A7C0E83F5C8C21F5707EC50931D.sk1.ap-northeast-2.eks.amazonaws.com"
+cluster_id = "my-eks-shop-cluster"
+cluster_name = "my-eks-shop-cluster"
+namespace_name = "shop"
+rds_endpoint = "my-eks-shop-cluster-db.cb0k6umqm9t7.ap-northeast-2.rds.amazonaws.com:3306"
+redis_endpoint = "my-eks-shop-cluster-redis.ljxdqv.0001.apn2.cache.amazonaws.com"
+redis_port = 6379
+service_account_name = "shopping-mall-sa"
+shopping_mall_role_arn = "arn:aws:iam::335507813633:role/ShoppingMallPodRole-335507813633-my-eks-shop-cluster"
+vpc_id = "vpc-0f01002dc010c4797"
+
+==================== Collecting terraform outputs =====================
+Cluster name     : my-eks-shop-cluster
+Bastion public IP: 3.39.224.158
+RDS endpoint     : my-eks-shop-cluster-db.cb0k6umqm9t7.ap-northeast-2.rds.amazonaws.com:3306
+Redis endpoint   : my-eks-shop-cluster-redis.ljxdqv.0001.apn2.cache.amazonaws.com
+AWS Account ID   : 335507813633
+
+==================== Uploading application artefacts to bastion =====================
+bootstrap-and-deploy-Tf_and_Bastion_Seperated.sh: line 197: rsync: command not found
+
+❌ ERROR: line 197 while running: rsync -avz -e "ssh $SSH_OPTS -i $SSH_KEY" "$APP_DIR/" "${SSH_USER}@${BASTION_IP}:~/" > /dev/null (exit=127)
+👉 Full log: ./logs/bootstrap_20250909_120055.log
+Dropping you into interactive shell (type: exit to quit)

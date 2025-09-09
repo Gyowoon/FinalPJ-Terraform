@@ -1,0 +1,65 @@
+== Bootstrap started Tue, Sep  9, 2025  9:37:00 AM ==
+
+==================== Running terraform apply =====================
+[0m[1mInitializing the backend...[0m
+[0m[1mUpgrading modules...[0m
+- bastion in modules\BASTION
+- dns in modules\DNS
+- eks in modules\EKS
+- rds in modules\RDS
+- redis in modules\REDIS
+- vpc in modules\VPC
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate local value definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on modules\EKS\providers.tf line 23, in locals:
+[31m│[0m [0m  23:   [4mcluster_role_name_unique  = "${var.cluster_role_name}-${var.account_id}-${var.cluster_name}"[0m[0m
+[31m│[0m [0m
+[31m│[0m [0mA local value named "cluster_role_name_unique" was already defined at
+[31m│[0m [0mmodules\EKS\main.tf:5,3-95. Local value names must be unique within a
+[31m│[0m [0mmodule.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate local value definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on modules\EKS\providers.tf line 24, in locals:
+[31m│[0m [0m  24:   [4mnode_role_name_unique     = "${var.node_role_name}-${var.account_id}-${var.cluster_name}"[0m[0m
+[31m│[0m [0m
+[31m│[0m [0mA local value named "node_role_name_unique" was already defined at
+[31m│[0m [0mmodules\EKS\main.tf:6,3-92. Local value names must be unique within a
+[31m│[0m [0mmodule.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate local value definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on modules\EKS\providers.tf line 25, in locals:
+[31m│[0m [0m  25:   [4mshopping_mall_role_name_unique   = "ShoppingMallPodRole-${var.account_id}-${var.cluster_name}"[0m[0m
+[31m│[0m [0m
+[31m│[0m [0mA local value named "shopping_mall_role_name_unique" was already defined at
+[31m│[0m [0mmodules\EKS\main.tf:7,3-97. Local value names must be unique within a
+[31m│[0m [0mmodule.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate local value definition[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on modules\EKS\providers.tf line 26, in locals:
+[31m│[0m [0m  26:   [4mshopping_mall_policy_name_unique = "ShoppingMallPolicy-${var.account_id}-${var.cluster_name}"[0m[0m
+[31m│[0m [0m
+[31m│[0m [0mA local value named "shopping_mall_policy_name_unique" was already defined
+[31m│[0m [0mat modules\EKS\main.tf:8,3-96. Local value names must be unique within a
+[31m│[0m [0mmodule.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mDuplicate variable declaration[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on modules\EKS\variables.tf line 6:
+[31m│[0m [0m   6: [4mvariable "kubernetes_version"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mA variable named "kubernetes_version" was already declared at
+[31m│[0m [0mmodules\EKS\additional_variables.tf:49,1-30. Variable names must be unique
+[31m│[0m [0mwithin a module.
+[31m╵[0m[0m
+
+❌ ERROR: line 146 while running: terraform -chdir="$TF_DIR" init -upgrade (exit=1)
+👉 Full log: ./logs/bootstrap_20250909_093700.log
+Dropping you into interactive shell (type: exit to quit)

@@ -1,0 +1,40 @@
+== Bootstrap started Tue, Sep  9, 2025  1:17:42 PM ==
+
+==================== Checking for existing Bastion instance =====================
+
+==================== Running terraform apply =====================
+[0m[1mInitializing the backend...[0m
+[0m[1mUpgrading modules...[0m
+- bastion in modules\BASTION
+- dns in modules\DNS
+- eks in modules\EKS
+- rds in modules\RDS
+- redis in modules\REDIS
+- vpc in modules\VPC
+[0m[1mInitializing provider plugins...[0m
+- Finding hashicorp/aws versions matching "~> 5.0"...
+- Finding hashicorp/kubernetes versions matching "~> 2.23"...
+- Using previously-installed hashicorp/kubernetes v2.38.0
+- Using previously-installed hashicorp/aws v5.100.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mUnsupported argument[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on modules\BASTION\main.tf line 113, in resource "aws_instance" "bastion":
+[31m│[0m [0m 113:   [4mforce_delete[0m               = true  # 인스턴스 강제 삭제 허용[0m
+[31m│[0m [0m
+[31m│[0m [0mAn argument named "force_delete" is not expected here.
+[31m╵[0m[0m
+
+❌ ERROR: line 151 while running: terraform -chdir="$TF_DIR" apply -auto-approve (exit=1)
+👉 Full log: ./logs/bootstrap_20250909_131742.log
+Dropping you into interactive shell (type: exit to quit)

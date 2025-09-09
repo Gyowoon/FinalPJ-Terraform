@@ -1,0 +1,44 @@
+== Bootstrap started Tue, Sep  9, 2025  1:18:43 PM ==
+
+==================== Checking for existing Bastion instance =====================
+
+==================== Running terraform apply =====================
+[0m[1mInitializing the backend...[0m
+[0m[1mUpgrading modules...[0m
+- bastion in modules\BASTION
+- dns in modules\DNS
+- eks in modules\EKS
+- rds in modules\RDS
+- redis in modules\REDIS
+- vpc in modules\VPC
+[0m[1mInitializing provider plugins...[0m
+- Finding hashicorp/kubernetes versions matching "~> 2.23"...
+- Finding hashicorp/aws versions matching "~> 5.0"...
+- Using previously-installed hashicorp/kubernetes v2.38.0
+- Using previously-installed hashicorp/aws v5.100.0
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mProvider configuration not present[0m
+[31m│[0m [0m
+[31m│[0m [0m[0mTo work with module.bastion.kubernetes_config_map.aws_auth (orphan) its
+[31m│[0m [0moriginal provider configuration at
+[31m│[0m [0mmodule.bastion.provider["registry.terraform.io/hashicorp/kubernetes"] is
+[31m│[0m [0mrequired, but it has been removed. This occurs when a provider
+[31m│[0m [0mconfiguration is removed while objects created by that provider still exist
+[31m│[0m [0min the state. Re-add the provider configuration to destroy
+[31m│[0m [0mmodule.bastion.kubernetes_config_map.aws_auth (orphan), after which you can
+[31m│[0m [0mremove the provider configuration again.
+[31m╵[0m[0m
+
+❌ ERROR: line 151 while running: terraform -chdir="$TF_DIR" apply -auto-approve (exit=1)
+👉 Full log: ./logs/bootstrap_20250909_131843.log
+Dropping you into interactive shell (type: exit to quit)

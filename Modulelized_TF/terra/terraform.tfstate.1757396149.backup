@@ -1,0 +1,3188 @@
+{
+  "version": 4,
+  "terraform_version": "1.13.0",
+  "serial": 111,
+  "lineage": "9e7f5c1a-2c58-46e2-4590-394ea9d85171",
+  "outputs": {
+    "bastion_dns": {
+      "value": "ec2-3-35-238-200.ap-northeast-2.compute.amazonaws.com",
+      "type": "string"
+    },
+    "bastion_public_ip": {
+      "value": "3.35.238.200",
+      "type": "string"
+    },
+    "cluster_endpoint": {
+      "value": "https://D0F50A7C0E83F5C8C21F5707EC50931D.sk1.ap-northeast-2.eks.amazonaws.com",
+      "type": "string"
+    },
+    "cluster_id": {
+      "value": "my-eks-shop-cluster",
+      "type": "string"
+    },
+    "cluster_name": {
+      "value": "my-eks-shop-cluster",
+      "type": "string"
+    },
+    "namespace_name": {
+      "value": "shop",
+      "type": "string"
+    },
+    "rds_endpoint": {
+      "value": "my-eks-shop-cluster-db.cb0k6umqm9t7.ap-northeast-2.rds.amazonaws.com:3306",
+      "type": "string"
+    },
+    "redis_endpoint": {
+      "value": "my-eks-shop-cluster-redis.ljxdqv.0001.apn2.cache.amazonaws.com",
+      "type": "string"
+    },
+    "redis_port": {
+      "value": 6379,
+      "type": "number"
+    },
+    "service_account_name": {
+      "value": "shopping-mall-sa",
+      "type": "string"
+    },
+    "shopping_mall_role_arn": {
+      "value": "arn:aws:iam::335507813633:role/ShoppingMallPodRole-335507813633-my-eks-shop-cluster",
+      "type": "string"
+    },
+    "vpc_id": {
+      "value": "vpc-0f01002dc010c4797",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_ami",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "architecture": "x86_64",
+            "arn": "arn:aws:ec2:ap-northeast-2::image/ami-0ae2c887094315bed",
+            "block_device_mappings": [
+              {
+                "device_name": "/dev/xvda",
+                "ebs": {
+                  "delete_on_termination": "true",
+                  "encrypted": "false",
+                  "iops": "3000",
+                  "snapshot_id": "snap-0b22a55180a183fbf",
+                  "throughput": "125",
+                  "volume_initialization_rate": "0",
+                  "volume_size": "8",
+                  "volume_type": "gp3"
+                },
+                "no_device": "",
+                "virtual_name": ""
+              }
+            ],
+            "boot_mode": "uefi-preferred",
+            "creation_date": "2025-08-13T21:33:41.000Z",
+            "deprecation_time": "2025-11-11T21:34:00.000Z",
+            "description": "Amazon Linux 2023 AMI 2023.8.20250818.0 x86_64 HVM kernel-6.1",
+            "ena_support": true,
+            "executable_users": null,
+            "filter": [
+              {
+                "name": "name",
+                "values": [
+                  "al2023-ami-2023.*-x86_64"
+                ]
+              },
+              {
+                "name": "virtualization-type",
+                "values": [
+                  "hvm"
+                ]
+              }
+            ],
+            "hypervisor": "xen",
+            "id": "ami-0ae2c887094315bed",
+            "image_id": "ami-0ae2c887094315bed",
+            "image_location": "amazon/al2023-ami-2023.8.20250818.0-kernel-6.1-x86_64",
+            "image_owner_alias": "amazon",
+            "image_type": "machine",
+            "imds_support": "v2.0",
+            "include_deprecated": false,
+            "kernel_id": "",
+            "last_launched_time": "",
+            "most_recent": true,
+            "name": "al2023-ami-2023.8.20250818.0-kernel-6.1-x86_64",
+            "name_regex": null,
+            "owner_id": "137112412989",
+            "owners": [
+              "amazon"
+            ],
+            "platform": "",
+            "platform_details": "Linux/UNIX",
+            "product_codes": [],
+            "public": true,
+            "ramdisk_id": "",
+            "root_device_name": "/dev/xvda",
+            "root_device_type": "ebs",
+            "root_snapshot_id": "snap-0b22a55180a183fbf",
+            "sriov_net_support": "simple",
+            "state": "available",
+            "state_reason": {
+              "code": "UNSET",
+              "message": "UNSET"
+            },
+            "tags": {},
+            "timeouts": null,
+            "tpm_support": "",
+            "uefi_data": null,
+            "usage_operation": "RunInstances",
+            "virtualization_type": "hvm"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_caller_identity",
+      "name": "current",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "335507813633",
+            "arn": "arn:aws:iam::335507813633:user/GW",
+            "id": "335507813633",
+            "user_id": "AIDAU4HOS6UAU2AWHXW2L"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_eks_cluster",
+      "name": "eks",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_config": [
+              {
+                "authentication_mode": "API",
+                "bootstrap_cluster_creator_admin_permissions": true
+              }
+            ],
+            "arn": "arn:aws:eks:ap-northeast-2:335507813633:cluster/my-eks-shop-cluster",
+            "certificate_authority": [
+              {
+                "data": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJYVF2ZDM4NWN0VVl3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBNU1Ea3dNVEV3TlRKYUZ3MHpOVEE1TURjd01URTFOVEphTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURSM2RUUjF5cjh6czN6bGx3UzZpZkhsV0k5eHp6UEthL3ZubEVWNjg4Mm5KR1BTQVJBbDJlb3VjVlQKZFFZTzNZaWVMTFNUenZXeGpuL3JJSDFlQ1EydmJ5cTJ4cFdTbyt6THE2UnZ5L3hJSFBFRmpVSHZTOUlMcmNmUwpFT0ZGNW1MMSs1ZVFMZENPUlhOUHRtcjdXL1FoLzZKNlFPQzNsTVVZWlF3VDlpakR2R1h4UVNRZlU2c2JMRzR3CkkwV0xueXl1R1QxbWV4cmN5ZVhjTElIREplQjJNNG9VRUNKQy9PZmpRZnJBaHBuOUd5bEt4SUY3ZVdKU2FMeUQKdHRSSmp1VnJneGNydmpSWGNNNUpWRWU2MjY0UjAvendMRlEyd2FzcVpsckkwbGFVRGg1TG5MZjhEVTRzakJ1bQpRMGt5NEc0WTQ0Z0F5a01tc0tVQ0tQMGxiUGhyQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSbU9pYkRnYmRKZGpSSUI3Wk8wdkVra3FlMlZqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQjhKSzFvLzlxMAo2ckRyelVJRHVQb2dVaU5FVVdSMllXcnA1WTZDKzBWWWFqZHRLUFVhVjFMRkkyYnkxS1FZR2JvYnlGYjBwQlhCCmt1WlN2ZE9zMm4zNzNWTzlFMmJyNjVzbGhodENIYy9yZTV1b2s1R2l4T3V6dTEyRFNPMTFTdXF3eFNWUGxZSTEKdGRUeU1ONUpCMUFKN3VvR09YZzdhLzVKRlMrbzBZZ1dUMTg2Z28rU0dDQXJxZGFxOVdwVGdKV1FyNFNvbm9DawpQMStxU0U0c0d6cndVTituczZkL2pkc210aWFDR1dTSWV6KzRPMnFxMGc5MVFLSlNFeXVTMTg2REIrazEvNC9zCjBCVjFKcVYvalJWNyt5T1BIOFZyR1hYRFg1OGRtQmpwYlE4ZjhteGsrdDkrZWlvWjB2c1VLMVQ5V0xyR1pqOXAKRHlPRUxaNUczczhQCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
+              }
+            ],
+            "cluster_id": null,
+            "compute_config": [],
+            "created_at": "2025-09-09T01:10:39Z",
+            "enabled_cluster_log_types": [],
+            "endpoint": "https://D0F50A7C0E83F5C8C21F5707EC50931D.sk1.ap-northeast-2.eks.amazonaws.com",
+            "id": "my-eks-shop-cluster",
+            "identity": [
+              {
+                "oidc": [
+                  {
+                    "issuer": "https://oidc.eks.ap-northeast-2.amazonaws.com/id/D0F50A7C0E83F5C8C21F5707EC50931D"
+                  }
+                ]
+              }
+            ],
+            "kubernetes_network_config": [
+              {
+                "elastic_load_balancing": [
+                  {
+                    "enabled": false
+                  }
+                ],
+                "ip_family": "ipv4",
+                "service_ipv4_cidr": "172.20.0.0/16",
+                "service_ipv6_cidr": ""
+              }
+            ],
+            "name": "my-eks-shop-cluster",
+            "outpost_config": [],
+            "platform_version": "eks.52",
+            "remote_network_config": [],
+            "role_arn": "arn:aws:iam::335507813633:role/YourEKSClusterRole-335507813633-my-eks-shop-cluster",
+            "status": "ACTIVE",
+            "storage_config": [],
+            "tags": {},
+            "upgrade_policy": [
+              {
+                "support_type": "EXTENDED"
+              }
+            ],
+            "version": "1.28",
+            "vpc_config": [
+              {
+                "cluster_security_group_id": "sg-0318c9622551931af",
+                "endpoint_private_access": true,
+                "endpoint_public_access": true,
+                "public_access_cidrs": [
+                  "0.0.0.0/0"
+                ],
+                "security_group_ids": [],
+                "subnet_ids": [
+                  "subnet-0b539bfe5869b67f8",
+                  "subnet-0baacecc2ecd21547",
+                  "subnet-0ebd02cda259e72d5",
+                  "subnet-0fc3462a545a1041d"
+                ],
+                "vpc_id": "vpc-0f01002dc010c4797"
+              }
+            ],
+            "zonal_shift_config": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_eks_cluster_auth",
+      "name": "eks",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "my-eks-shop-cluster",
+            "name": "my-eks-shop-cluster",
+            "token": "k8s-aws-v1.aHR0cHM6Ly9zdHMuYXAtbm9ydGhlYXN0LTIuYW1hem9uYXdzLmNvbS8_QWN0aW9uPUdldENhbGxlcklkZW50aXR5JlZlcnNpb249MjAxMS0wNi0xNSZYLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFVNEhPUzZVQTVZTk5XRlgyJTJGMjAyNTA5MDklMkZhcC1ub3J0aGVhc3QtMiUyRnN0cyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwOTA5VDAzNDgzOVomWC1BbXotRXhwaXJlcz0wJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCUzQngtazhzLWF3cy1pZCZYLUFtei1TaWduYXR1cmU9YzVhMzNjNjQ2ODFiMzg3NDBkYWNkM2QwNjgyODE0Y2IxMmM1OTM1OGE3MzFjYjk2N2FkN2Q4Mzk4NDI0NGJkZA"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "token"
+              }
+            ]
+          ],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "ami": "ami-0ae2c887094315bed",
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:instance/i-025ab581f9e19b4ad",
+            "associate_public_ip_address": true,
+            "availability_zone": "ap-northeast-2a",
+            "capacity_reservation_specification": [
+              {
+                "capacity_reservation_preference": "open",
+                "capacity_reservation_target": []
+              }
+            ],
+            "cpu_core_count": 1,
+            "cpu_options": [
+              {
+                "amd_sev_snp": "",
+                "core_count": 1,
+                "threads_per_core": 2
+              }
+            ],
+            "cpu_threads_per_core": 2,
+            "credit_specification": [
+              {
+                "cpu_credits": "unlimited"
+              }
+            ],
+            "disable_api_stop": false,
+            "disable_api_termination": false,
+            "ebs_block_device": [],
+            "ebs_optimized": false,
+            "enable_primary_ipv6": null,
+            "enclave_options": [
+              {
+                "enabled": false
+              }
+            ],
+            "ephemeral_block_device": [],
+            "get_password_data": false,
+            "hibernation": false,
+            "host_id": "",
+            "host_resource_group_arn": null,
+            "iam_instance_profile": "bastion-profile-335507813633-my-eks-shop-cluster",
+            "id": "i-025ab581f9e19b4ad",
+            "instance_initiated_shutdown_behavior": "stop",
+            "instance_lifecycle": "",
+            "instance_market_options": [],
+            "instance_state": "running",
+            "instance_type": "t3.large",
+            "ipv6_address_count": 0,
+            "ipv6_addresses": [],
+            "key_name": "LetMeIn",
+            "launch_template": [],
+            "maintenance_options": [
+              {
+                "auto_recovery": "default"
+              }
+            ],
+            "metadata_options": [
+              {
+                "http_endpoint": "enabled",
+                "http_protocol_ipv6": "disabled",
+                "http_put_response_hop_limit": 2,
+                "http_tokens": "required",
+                "instance_metadata_tags": "disabled"
+              }
+            ],
+            "monitoring": false,
+            "network_interface": [],
+            "outpost_arn": "",
+            "password_data": "",
+            "placement_group": "",
+            "placement_partition_number": 0,
+            "primary_network_interface_id": "eni-01f29adf46677a9ae",
+            "private_dns": "ip-10-10-1-87.ap-northeast-2.compute.internal",
+            "private_dns_name_options": [
+              {
+                "enable_resource_name_dns_a_record": false,
+                "enable_resource_name_dns_aaaa_record": false,
+                "hostname_type": "ip-name"
+              }
+            ],
+            "private_ip": "10.10.1.87",
+            "public_dns": "ec2-54-180-131-149.ap-northeast-2.compute.amazonaws.com",
+            "public_ip": "54.180.131.149",
+            "root_block_device": [
+              {
+                "delete_on_termination": true,
+                "device_name": "/dev/xvda",
+                "encrypted": false,
+                "iops": 3000,
+                "kms_key_id": "",
+                "tags": {},
+                "tags_all": {},
+                "throughput": 125,
+                "volume_id": "vol-0eeb765977077e1b1",
+                "volume_size": 30,
+                "volume_type": "gp3"
+              }
+            ],
+            "secondary_private_ips": [],
+            "security_groups": [],
+            "source_dest_check": true,
+            "spot_instance_request_id": "",
+            "subnet_id": "subnet-0fc3462a545a1041d",
+            "tags": {
+              "Name": "my-eks-shop-cluster-bastion"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-bastion"
+            },
+            "tenancy": "default",
+            "timeouts": null,
+            "user_data": "b6cee04d9df13814e9c4f22782647d2a4a812330",
+            "user_data_base64": null,
+            "user_data_replace_on_change": false,
+            "volume_tags": null,
+            "vpc_security_group_ids": [
+              "sg-0318c9622551931af",
+              "sg-0833ba59249d9714e"
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMCwicmVhZCI6OTAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_security_group.bastion",
+            "data.aws_ami.bastion",
+            "data.aws_caller_identity.current",
+            "module.bastion.aws_iam_instance_profile.bastion",
+            "module.bastion.aws_iam_role.bastion",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_eks_pod_identity_association.shopping_mall",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role.shopping_mall_role",
+            "module.eks.aws_iam_role_policy.shopping_mall_policy",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.eks.aws_iam_role_policy_attachment.shopping_mall_ecr_policy",
+            "module.eks.kubernetes_namespace.shop",
+            "module.eks.kubernetes_service_account.shopping_mall",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:security-group/sg-0833ba59249d9714e",
+            "description": "Security group for bastion host",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-0833ba59249d9714e",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "Allow SSH from allowed CIDRs",
+                "from_port": 22,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 22
+              }
+            ],
+            "name": "my-eks-shop-cluster-bastion-20250909005953433300000004",
+            "name_prefix": "my-eks-shop-cluster-bastion-",
+            "owner_id": "335507813633",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "my-eks-shop-cluster-bastion"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-bastion"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "kubernetes_cluster_role_binding",
+      "name": "bastion_admin",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "bastion-admin-binding",
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {},
+                "name": "bastion-admin-binding",
+                "resource_version": "7810",
+                "uid": "a9e5cd9b-73a5-4973-86f8-1c76f314dfe8"
+              }
+            ],
+            "role_ref": [
+              {
+                "api_group": "rbac.authorization.k8s.io",
+                "kind": "ClusterRole",
+                "name": "cluster-admin"
+              }
+            ],
+            "subject": [
+              {
+                "api_group": "rbac.authorization.k8s.io",
+                "kind": "Group",
+                "name": "eks-admins",
+                "namespace": "default"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "rbac.authorization.k8s.io/v1",
+            "kind": "ClusterRoleBinding",
+            "name": "bastion-admin-binding"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "data.aws_eks_cluster_auth.eks",
+            "module.bastion.aws_iam_instance_profile.bastion",
+            "module.bastion.aws_iam_role.bastion",
+            "module.bastion.aws_iam_role_policy.bastion",
+            "module.bastion.aws_instance.bastion",
+            "module.bastion.aws_security_group.bastion",
+            "module.bastion.data.aws_ami.bastion",
+            "module.bastion.data.aws_iam_instance_profile.bastion",
+            "module.bastion.kubernetes_config_map.aws_auth",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_eks_pod_identity_association.shopping_mall",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role.shopping_mall_role",
+            "module.eks.aws_iam_role_policy.shopping_mall_policy",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.eks.aws_iam_role_policy_attachment.shopping_mall_ecr_policy",
+            "module.eks.kubernetes_namespace.shop",
+            "module.eks.kubernetes_service_account.shopping_mall",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.bastion",
+      "mode": "data",
+      "type": "aws_ami",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "architecture": "x86_64",
+            "arn": "arn:aws:ec2:ap-northeast-2::image/ami-068d7b3dd93d9c2a6",
+            "block_device_mappings": [
+              {
+                "device_name": "/dev/xvda",
+                "ebs": {
+                  "delete_on_termination": "true",
+                  "encrypted": "false",
+                  "iops": "3000",
+                  "snapshot_id": "snap-04cacf147977c95f4",
+                  "throughput": "125",
+                  "volume_initialization_rate": "0",
+                  "volume_size": "30",
+                  "volume_type": "gp3"
+                },
+                "no_device": "",
+                "virtual_name": ""
+              }
+            ],
+            "boot_mode": "uefi-preferred",
+            "creation_date": "2025-08-28T23:02:27.000Z",
+            "deprecation_time": "2027-08-28T23:02:27.000Z",
+            "description": "Amazon Linux AMI 2023.0.20250828 x86_64 ECS HVM EBS",
+            "ena_support": true,
+            "executable_users": null,
+            "filter": [
+              {
+                "name": "architecture",
+                "values": [
+                  "x86_64"
+                ]
+              },
+              {
+                "name": "image-type",
+                "values": [
+                  "machine"
+                ]
+              },
+              {
+                "name": "name",
+                "values": [
+                  "al2023-ami-*-x86_64"
+                ]
+              }
+            ],
+            "hypervisor": "xen",
+            "id": "ami-068d7b3dd93d9c2a6",
+            "image_id": "ami-068d7b3dd93d9c2a6",
+            "image_location": "amazon/al2023-ami-ecs-hvm-2023.0.20250828-kernel-6.1-x86_64",
+            "image_owner_alias": "amazon",
+            "image_type": "machine",
+            "imds_support": "v2.0",
+            "include_deprecated": false,
+            "kernel_id": "",
+            "last_launched_time": "",
+            "most_recent": true,
+            "name": "al2023-ami-ecs-hvm-2023.0.20250828-kernel-6.1-x86_64",
+            "name_regex": null,
+            "owner_id": "591542846629",
+            "owners": [
+              "amazon"
+            ],
+            "platform": "",
+            "platform_details": "Linux/UNIX",
+            "product_codes": [],
+            "public": true,
+            "ramdisk_id": "",
+            "root_device_name": "/dev/xvda",
+            "root_device_type": "ebs",
+            "root_snapshot_id": "snap-04cacf147977c95f4",
+            "sriov_net_support": "simple",
+            "state": "available",
+            "state_reason": {
+              "code": "UNSET",
+              "message": "UNSET"
+            },
+            "tags": {},
+            "timeouts": null,
+            "tpm_support": "",
+            "uefi_data": null,
+            "usage_operation": "RunInstances",
+            "virtualization_type": "hvm"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.bastion",
+      "mode": "managed",
+      "type": "aws_iam_instance_profile",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::335507813633:instance-profile/bastion-profile-335507813633-my-eks-shop-cluster",
+            "create_date": "2025-09-09T02:46:25Z",
+            "id": "bastion-profile-335507813633-my-eks-shop-cluster",
+            "name": "bastion-profile-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "path": "/",
+            "role": "bastion-role-335507813633-my-eks-shop-cluster",
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AIPAU4HOS6UAW55H3PBLX"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.bastion.aws_iam_role.bastion"
+          ],
+          "create_before_destroy": true
+        }
+      ]
+    },
+    {
+      "module": "module.bastion",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::335507813633:role/bastion-role-335507813633-my-eks-shop-cluster",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ec2.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-09T00:59:37Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "bastion-role-335507813633-my-eks-shop-cluster",
+            "inline_policy": [
+              {
+                "name": "bastion-policy-335507813633-my-eks-shop-cluster",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"*\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}]}"
+              }
+            ],
+            "managed_policy_arns": [],
+            "max_session_duration": 3600,
+            "name": "bastion-role-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AROAU4HOS6UAXTROZ2EPH"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current"
+          ],
+          "create_before_destroy": true
+        }
+      ]
+    },
+    {
+      "module": "module.bastion",
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "bastion-role-335507813633-my-eks-shop-cluster:bastion-policy-335507813633-my-eks-shop-cluster",
+            "name": "bastion-policy-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"*\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}]}",
+            "role": "bastion-role-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.bastion.aws_iam_role.bastion"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.bastion",
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "ami": "ami-068d7b3dd93d9c2a6",
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:instance/i-00ef7abdd144b91c4",
+            "associate_public_ip_address": true,
+            "availability_zone": "ap-northeast-2a",
+            "capacity_reservation_specification": [
+              {
+                "capacity_reservation_preference": "open",
+                "capacity_reservation_target": []
+              }
+            ],
+            "cpu_core_count": 1,
+            "cpu_options": [
+              {
+                "amd_sev_snp": "",
+                "core_count": 1,
+                "threads_per_core": 2
+              }
+            ],
+            "cpu_threads_per_core": 2,
+            "credit_specification": [
+              {
+                "cpu_credits": "unlimited"
+              }
+            ],
+            "disable_api_stop": false,
+            "disable_api_termination": false,
+            "ebs_block_device": [],
+            "ebs_optimized": false,
+            "enable_primary_ipv6": null,
+            "enclave_options": [
+              {
+                "enabled": false
+              }
+            ],
+            "ephemeral_block_device": [],
+            "get_password_data": false,
+            "hibernation": false,
+            "host_id": "",
+            "host_resource_group_arn": null,
+            "iam_instance_profile": "bastion-profile-335507813633-my-eks-shop-cluster",
+            "id": "i-00ef7abdd144b91c4",
+            "instance_initiated_shutdown_behavior": "stop",
+            "instance_lifecycle": "",
+            "instance_market_options": [],
+            "instance_state": "running",
+            "instance_type": "t3.large",
+            "ipv6_address_count": 0,
+            "ipv6_addresses": [],
+            "key_name": "LetMeIn",
+            "launch_template": [],
+            "maintenance_options": [
+              {
+                "auto_recovery": "default"
+              }
+            ],
+            "metadata_options": [
+              {
+                "http_endpoint": "enabled",
+                "http_protocol_ipv6": "disabled",
+                "http_put_response_hop_limit": 2,
+                "http_tokens": "required",
+                "instance_metadata_tags": "disabled"
+              }
+            ],
+            "monitoring": false,
+            "network_interface": [],
+            "outpost_arn": "",
+            "password_data": "",
+            "placement_group": "",
+            "placement_partition_number": 0,
+            "primary_network_interface_id": "eni-0f1d5a3538ecf4365",
+            "private_dns": "ip-10-10-1-80.ap-northeast-2.compute.internal",
+            "private_dns_name_options": [
+              {
+                "enable_resource_name_dns_a_record": false,
+                "enable_resource_name_dns_aaaa_record": false,
+                "hostname_type": "ip-name"
+              }
+            ],
+            "private_ip": "10.10.1.80",
+            "public_dns": "ec2-3-35-238-200.ap-northeast-2.compute.amazonaws.com",
+            "public_ip": "3.35.238.200",
+            "root_block_device": [
+              {
+                "delete_on_termination": true,
+                "device_name": "/dev/xvda",
+                "encrypted": false,
+                "iops": 3000,
+                "kms_key_id": "",
+                "tags": null,
+                "tags_all": {},
+                "throughput": 125,
+                "volume_id": "vol-0fab1bc8f9781bc49",
+                "volume_size": 30,
+                "volume_type": "gp3"
+              }
+            ],
+            "secondary_private_ips": [],
+            "security_groups": [],
+            "source_dest_check": true,
+            "spot_instance_request_id": "",
+            "subnet_id": "subnet-0fc3462a545a1041d",
+            "tags": {
+              "Name": "my-eks-shop-cluster-bastion"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-bastion"
+            },
+            "tenancy": "default",
+            "timeouts": null,
+            "user_data": "54aa17086219072d461ec98815d5643b7f339f90",
+            "user_data_base64": null,
+            "user_data_replace_on_change": false,
+            "volume_tags": null,
+            "vpc_security_group_ids": [
+              "sg-0318c9622551931af",
+              "sg-0c2ad7e58e7ac58a9"
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMCwicmVhZCI6OTAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.bastion.aws_iam_instance_profile.bastion",
+            "module.bastion.aws_iam_role.bastion",
+            "module.bastion.aws_security_group.bastion",
+            "module.bastion.data.aws_ami.bastion",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.bastion",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "bastion",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:security-group/sg-0c2ad7e58e7ac58a9",
+            "description": "Security group for bastion host",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-0c2ad7e58e7ac58a9",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "Allow SSH from allowed CIDRs",
+                "from_port": 22,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 22
+              }
+            ],
+            "name": "my-eks-shop-cluster-bastion-20250909005953432800000003",
+            "name_prefix": "my-eks-shop-cluster-bastion-",
+            "owner_id": "335507813633",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "my-eks-shop-cluster-bastion"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-bastion"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.bastion",
+      "mode": "managed",
+      "type": "kubernetes_config_map",
+      "name": "aws_auth",
+      "provider": "module.bastion.provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "binary_data": {},
+            "data": {
+              "mapRoles": "- \"groups\":\n  - \"system:bootstrappers\"\n  - \"system:nodes\"\n  - \"system:masters\"\n  \"rolearn\": \"arn:aws:iam::335507813633:role/bastion-role-335507813633-my-eks-shop-cluster\"\n  \"username\": \"admin\"\n"
+            },
+            "id": "kube-system/aws-auth",
+            "immutable": false,
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {},
+                "name": "aws-auth",
+                "namespace": "kube-system",
+                "resource_version": "30378",
+                "uid": "59b4490c-15b9-4b21-b553-a9abd3b9ef56"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "ConfigMap",
+            "name": "aws-auth",
+            "namespace": "kube-system"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.bastion.aws_iam_role.bastion",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.dns",
+      "mode": "managed",
+      "type": "aws_eks_pod_identity_association",
+      "name": "external_dns",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "association_arn": "arn:aws:eks:ap-northeast-2:335507813633:podidentityassociation/my-eks-shop-cluster/a-hlihk7ffnnt2jykq8",
+            "association_id": "a-hlihk7ffnnt2jykq8",
+            "cluster_name": "my-eks-shop-cluster",
+            "id": "a-hlihk7ffnnt2jykq8",
+            "namespace": "kube-system",
+            "role_arn": "arn:aws:iam::335507813633:role/external-dns-pod-identity-role-335507813633-my-eks-shop-cluster",
+            "service_account": "external-dns",
+            "tags": null,
+            "tags_all": {}
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.dns.aws_iam_role.external_dns",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_eks_pod_identity_association.shopping_mall",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role.shopping_mall_role",
+            "module.eks.aws_iam_role_policy.shopping_mall_policy",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.eks.aws_iam_role_policy_attachment.shopping_mall_ecr_policy",
+            "module.eks.kubernetes_namespace.shop",
+            "module.eks.kubernetes_service_account.shopping_mall",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.dns",
+      "mode": "managed",
+      "type": "aws_iam_policy",
+      "name": "external_dns",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::335507813633:policy/external-dns-route53-policy-335507813633-my-eks-shop-cluster",
+            "attachment_count": 1,
+            "description": "Allow ExternalDNS to manage Route53 records",
+            "id": "arn:aws:iam::335507813633:policy/external-dns-route53-policy-335507813633-my-eks-shop-cluster",
+            "name": "external-dns-route53-policy-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "path": "/",
+            "policy": "{\"Statement\":[{\"Action\":[\"route53:ListHostedZones\",\"route53:ListResourceRecordSets\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"route53:ChangeResourceRecordSets\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:route53:::hostedzone/Z076855811XMR50K5FM98\"}],\"Version\":\"2012-10-17\"}",
+            "policy_id": "ANPAU4HOS6UAZJVZEAAE2",
+            "tags": {
+              "Cluster": "my-eks-shop-cluster",
+              "Name": "external-dns-policy"
+            },
+            "tags_all": {
+              "Cluster": "my-eks-shop-cluster",
+              "Name": "external-dns-policy"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_eks_pod_identity_association.shopping_mall",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role.shopping_mall_role",
+            "module.eks.aws_iam_role_policy.shopping_mall_policy",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.eks.aws_iam_role_policy_attachment.shopping_mall_ecr_policy",
+            "module.eks.kubernetes_namespace.shop",
+            "module.eks.kubernetes_service_account.shopping_mall",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.dns",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "external_dns",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::335507813633:role/external-dns-pod-identity-role-335507813633-my-eks-shop-cluster",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":[\"sts:AssumeRole\",\"sts:TagSession\"],\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"pods.eks.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-09T00:59:37Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "external-dns-pod-identity-role-335507813633-my-eks-shop-cluster",
+            "inline_policy": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::335507813633:policy/external-dns-route53-policy-335507813633-my-eks-shop-cluster"
+            ],
+            "max_session_duration": 3600,
+            "name": "external-dns-pod-identity-role-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {
+              "Cluster": "my-eks-shop-cluster",
+              "Name": "external-dns-role"
+            },
+            "tags_all": {
+              "Cluster": "my-eks-shop-cluster",
+              "Name": "external-dns-role"
+            },
+            "unique_id": "AROAU4HOS6UA5EFW3GEAC"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_eks_pod_identity_association.shopping_mall",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role.shopping_mall_role",
+            "module.eks.aws_iam_role_policy.shopping_mall_policy",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.eks.aws_iam_role_policy_attachment.shopping_mall_ecr_policy",
+            "module.eks.kubernetes_namespace.shop",
+            "module.eks.kubernetes_service_account.shopping_mall",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.dns",
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "external_dns_attach",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "external-dns-pod-identity-role-335507813633-my-eks-shop-cluster-20250909005943804700000002",
+            "policy_arn": "arn:aws:iam::335507813633:policy/external-dns-route53-policy-335507813633-my-eks-shop-cluster",
+            "role": "external-dns-pod-identity-role-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.dns.aws_iam_policy.external_dns",
+            "module.dns.aws_iam_role.external_dns",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_eks_pod_identity_association.shopping_mall",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role.shopping_mall_role",
+            "module.eks.aws_iam_role_policy.shopping_mall_policy",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.eks.aws_iam_role_policy_attachment.shopping_mall_ecr_policy",
+            "module.eks.kubernetes_namespace.shop",
+            "module.eks.kubernetes_service_account.shopping_mall",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_eks_addon",
+      "name": "coredns",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "addon_name": "coredns",
+            "addon_version": "v1.10.1-eksbuild.4",
+            "arn": "arn:aws:eks:ap-northeast-2:335507813633:addon/my-eks-shop-cluster/coredns/e0cc9609-f65c-d18c-6f9f-b25ca7d5a57f",
+            "cluster_name": "my-eks-shop-cluster",
+            "configuration_values": "",
+            "created_at": "2025-09-09T01:25:27Z",
+            "id": "my-eks-shop-cluster:coredns",
+            "modified_at": "2025-09-09T01:25:40Z",
+            "pod_identity_association": [],
+            "preserve": null,
+            "resolve_conflicts": null,
+            "resolve_conflicts_on_create": null,
+            "resolve_conflicts_on_update": null,
+            "service_account_role_arn": "",
+            "tags": {},
+            "tags_all": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_eks_addon",
+      "name": "kube_proxy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "addon_name": "kube-proxy",
+            "addon_version": "v1.28.15-eksbuild.4",
+            "arn": "arn:aws:eks:ap-northeast-2:335507813633:addon/my-eks-shop-cluster/kube-proxy/82cc9607-a3ae-408e-ed84-e35a47883d0f",
+            "cluster_name": "my-eks-shop-cluster",
+            "configuration_values": "",
+            "created_at": "2025-09-09T01:20:23Z",
+            "id": "my-eks-shop-cluster:kube-proxy",
+            "modified_at": "2025-09-09T01:23:00Z",
+            "pod_identity_association": [],
+            "preserve": null,
+            "resolve_conflicts": null,
+            "resolve_conflicts_on_create": null,
+            "resolve_conflicts_on_update": null,
+            "service_account_role_arn": "",
+            "tags": {},
+            "tags_all": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_eks_addon",
+      "name": "pod_identity_agent",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "addon_name": "eks-pod-identity-agent",
+            "addon_version": "v1.3.8-eksbuild.2",
+            "arn": "arn:aws:eks:ap-northeast-2:335507813633:addon/my-eks-shop-cluster/eks-pod-identity-agent/20cc9607-a3af-d32d-32cf-3351cd9063c1",
+            "cluster_name": "my-eks-shop-cluster",
+            "configuration_values": "",
+            "created_at": "2025-09-09T01:20:23Z",
+            "id": "my-eks-shop-cluster:eks-pod-identity-agent",
+            "modified_at": "2025-09-09T01:22:59Z",
+            "pod_identity_association": [],
+            "preserve": null,
+            "resolve_conflicts": null,
+            "resolve_conflicts_on_create": null,
+            "resolve_conflicts_on_update": null,
+            "service_account_role_arn": "",
+            "tags": {},
+            "tags_all": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_eks_addon",
+      "name": "vpc_cni",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "addon_name": "vpc-cni",
+            "addon_version": "v1.19.0-eksbuild.1",
+            "arn": "arn:aws:eks:ap-northeast-2:335507813633:addon/my-eks-shop-cluster/vpc-cni/90cc9607-a3aa-7e47-0ecc-444feed75e75",
+            "cluster_name": "my-eks-shop-cluster",
+            "configuration_values": "",
+            "created_at": "2025-09-09T01:20:23Z",
+            "id": "my-eks-shop-cluster:vpc-cni",
+            "modified_at": "2025-09-09T01:22:52Z",
+            "pod_identity_association": [],
+            "preserve": null,
+            "resolve_conflicts": null,
+            "resolve_conflicts_on_create": null,
+            "resolve_conflicts_on_update": null,
+            "service_account_role_arn": "",
+            "tags": {},
+            "tags_all": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_eks_cluster",
+      "name": "eks",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "access_config": [
+              {
+                "authentication_mode": "API",
+                "bootstrap_cluster_creator_admin_permissions": true
+              }
+            ],
+            "arn": "arn:aws:eks:ap-northeast-2:335507813633:cluster/my-eks-shop-cluster",
+            "bootstrap_self_managed_addons": true,
+            "certificate_authority": [
+              {
+                "data": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJYVF2ZDM4NWN0VVl3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBNU1Ea3dNVEV3TlRKYUZ3MHpOVEE1TURjd01URTFOVEphTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURSM2RUUjF5cjh6czN6bGx3UzZpZkhsV0k5eHp6UEthL3ZubEVWNjg4Mm5KR1BTQVJBbDJlb3VjVlQKZFFZTzNZaWVMTFNUenZXeGpuL3JJSDFlQ1EydmJ5cTJ4cFdTbyt6THE2UnZ5L3hJSFBFRmpVSHZTOUlMcmNmUwpFT0ZGNW1MMSs1ZVFMZENPUlhOUHRtcjdXL1FoLzZKNlFPQzNsTVVZWlF3VDlpakR2R1h4UVNRZlU2c2JMRzR3CkkwV0xueXl1R1QxbWV4cmN5ZVhjTElIREplQjJNNG9VRUNKQy9PZmpRZnJBaHBuOUd5bEt4SUY3ZVdKU2FMeUQKdHRSSmp1VnJneGNydmpSWGNNNUpWRWU2MjY0UjAvendMRlEyd2FzcVpsckkwbGFVRGg1TG5MZjhEVTRzakJ1bQpRMGt5NEc0WTQ0Z0F5a01tc0tVQ0tQMGxiUGhyQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSbU9pYkRnYmRKZGpSSUI3Wk8wdkVra3FlMlZqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQjhKSzFvLzlxMAo2ckRyelVJRHVQb2dVaU5FVVdSMllXcnA1WTZDKzBWWWFqZHRLUFVhVjFMRkkyYnkxS1FZR2JvYnlGYjBwQlhCCmt1WlN2ZE9zMm4zNzNWTzlFMmJyNjVzbGhodENIYy9yZTV1b2s1R2l4T3V6dTEyRFNPMTFTdXF3eFNWUGxZSTEKdGRUeU1ONUpCMUFKN3VvR09YZzdhLzVKRlMrbzBZZ1dUMTg2Z28rU0dDQXJxZGFxOVdwVGdKV1FyNFNvbm9DawpQMStxU0U0c0d6cndVTituczZkL2pkc210aWFDR1dTSWV6KzRPMnFxMGc5MVFLSlNFeXVTMTg2REIrazEvNC9zCjBCVjFKcVYvalJWNyt5T1BIOFZyR1hYRFg1OGRtQmpwYlE4ZjhteGsrdDkrZWlvWjB2c1VLMVQ5V0xyR1pqOXAKRHlPRUxaNUczczhQCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
+              }
+            ],
+            "cluster_id": null,
+            "compute_config": [],
+            "created_at": "2025-09-09T01:10:39Z",
+            "enabled_cluster_log_types": [],
+            "encryption_config": [],
+            "endpoint": "https://D0F50A7C0E83F5C8C21F5707EC50931D.sk1.ap-northeast-2.eks.amazonaws.com",
+            "force_update_version": null,
+            "id": "my-eks-shop-cluster",
+            "identity": [
+              {
+                "oidc": [
+                  {
+                    "issuer": "https://oidc.eks.ap-northeast-2.amazonaws.com/id/D0F50A7C0E83F5C8C21F5707EC50931D"
+                  }
+                ]
+              }
+            ],
+            "kubernetes_network_config": [
+              {
+                "elastic_load_balancing": [
+                  {
+                    "enabled": false
+                  }
+                ],
+                "ip_family": "ipv4",
+                "service_ipv4_cidr": "172.20.0.0/16",
+                "service_ipv6_cidr": ""
+              }
+            ],
+            "name": "my-eks-shop-cluster",
+            "outpost_config": [],
+            "platform_version": "eks.52",
+            "remote_network_config": [],
+            "role_arn": "arn:aws:iam::335507813633:role/YourEKSClusterRole-335507813633-my-eks-shop-cluster",
+            "status": "ACTIVE",
+            "storage_config": [],
+            "tags": {},
+            "tags_all": {},
+            "timeouts": null,
+            "upgrade_policy": [
+              {
+                "support_type": "EXTENDED"
+              }
+            ],
+            "version": "1.28",
+            "vpc_config": [
+              {
+                "cluster_security_group_id": "sg-0318c9622551931af",
+                "endpoint_private_access": true,
+                "endpoint_public_access": true,
+                "public_access_cidrs": [
+                  "0.0.0.0/0"
+                ],
+                "security_group_ids": [],
+                "subnet_ids": [
+                  "subnet-0b539bfe5869b67f8",
+                  "subnet-0baacecc2ecd21547",
+                  "subnet-0ebd02cda259e72d5",
+                  "subnet-0fc3462a545a1041d"
+                ],
+                "vpc_id": "vpc-0f01002dc010c4797"
+              }
+            ],
+            "zonal_shift_config": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjkwMDAwMDAwMDAwMCwidXBkYXRlIjozNjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_eks_node_group",
+      "name": "nodes",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "ami_type": "AL2023_x86_64_STANDARD",
+            "arn": "arn:aws:eks:ap-northeast-2:335507813633:nodegroup/my-eks-shop-cluster/YourEKSNodeGroups/82cc9608-e8b0-e5eb-35e7-e9935cc331f1",
+            "capacity_type": "ON_DEMAND",
+            "cluster_name": "my-eks-shop-cluster",
+            "disk_size": 20,
+            "force_update_version": null,
+            "id": "my-eks-shop-cluster:YourEKSNodeGroups",
+            "instance_types": [
+              "m7i-flex.large"
+            ],
+            "labels": {},
+            "launch_template": [],
+            "node_group_name": "YourEKSNodeGroups",
+            "node_group_name_prefix": "",
+            "node_repair_config": [],
+            "node_role_arn": "arn:aws:iam::335507813633:role/YourEKSNodeRole-335507813633-my-eks-shop-cluster",
+            "release_version": "1.28.15-20250904",
+            "remote_access": [
+              {
+                "ec2_ssh_key": "LetMeIn",
+                "source_security_group_ids": []
+              }
+            ],
+            "resources": [
+              {
+                "autoscaling_groups": [
+                  {
+                    "name": "eks-YourEKSNodeGroups-82cc9608-e8b0-e5eb-35e7-e9935cc331f1"
+                  }
+                ],
+                "remote_access_security_group_id": "sg-0d6dd2262d2619aab"
+              }
+            ],
+            "scaling_config": [
+              {
+                "desired_size": 4,
+                "max_size": 4,
+                "min_size": 4
+              }
+            ],
+            "status": "ACTIVE",
+            "subnet_ids": [
+              "subnet-0b539bfe5869b67f8",
+              "subnet-0baacecc2ecd21547",
+              "subnet-0ebd02cda259e72d5",
+              "subnet-0fc3462a545a1041d"
+            ],
+            "tags": {},
+            "tags_all": {},
+            "taint": [],
+            "timeouts": null,
+            "update_config": [
+              {
+                "max_unavailable": 1,
+                "max_unavailable_percentage": 0
+              }
+            ],
+            "version": "1.28"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozNjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInVwZGF0ZSI6MzYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_eks_pod_identity_association",
+      "name": "shopping_mall",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "association_arn": "arn:aws:eks:ap-northeast-2:335507813633:podidentityassociation/my-eks-shop-cluster/a-90idhlfet1wps08vr",
+            "association_id": "a-90idhlfet1wps08vr",
+            "cluster_name": "my-eks-shop-cluster",
+            "id": "a-90idhlfet1wps08vr",
+            "namespace": "shop",
+            "role_arn": "arn:aws:iam::335507813633:role/ShoppingMallPodRole-335507813633-my-eks-shop-cluster",
+            "service_account": "shopping-mall-sa",
+            "tags": null,
+            "tags_all": {}
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role.shopping_mall_role",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.eks.aws_iam_role_policy_attachment.shopping_mall_ecr_policy",
+            "module.eks.kubernetes_namespace.shop",
+            "module.eks.kubernetes_service_account.shopping_mall",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "eks_cluster",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::335507813633:role/YourEKSClusterRole-335507813633-my-eks-shop-cluster",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":[\"sts:AssumeRole\",\"sts:TagSession\"],\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"eks.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-09T01:10:34Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "YourEKSClusterRole-335507813633-my-eks-shop-cluster",
+            "inline_policy": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy",
+              "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+              "arn:aws:iam::aws:policy/AmazonEKSComputePolicy",
+              "arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy",
+              "arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy"
+            ],
+            "max_session_duration": 3600,
+            "name": "YourEKSClusterRole-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AROAU4HOS6UAWAQTZL42I"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "eks_node",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::335507813633:role/YourEKSNodeRole-335507813633-my-eks-shop-cluster",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ec2.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-09T01:10:34Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "YourEKSNodeRole-335507813633-my-eks-shop-cluster",
+            "inline_policy": [],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+              "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+              "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+            ],
+            "max_session_duration": 3600,
+            "name": "YourEKSNodeRole-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AROAU4HOS6UAS24QZPJNU"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "shopping_mall_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::335507813633:role/ShoppingMallPodRole-335507813633-my-eks-shop-cluster",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":[\"sts:AssumeRole\",\"sts:TagSession\"],\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"pods.eks.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-09T01:10:34Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "ShoppingMallPodRole-335507813633-my-eks-shop-cluster",
+            "inline_policy": [
+              {
+                "name": "ShoppingMallPolicy-335507813633-my-eks-shop-cluster",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"rds:DescribeDBInstances\",\"rds:DescribeDBClusters\",\"rds:Connect\",\"elasticache:DescribeCacheClusters\",\"elasticache:DescribeReplicationGroups\",\"elasticache:Connect\",\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\",\"s3:ListBucket\",\"secretsmanager:GetSecretValue\",\"secretsmanager:DescribeSecret\",\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\",\"logs:DescribeLogGroups\",\"logs:DescribeLogStreams\",\"ssm:GetParameter\",\"ssm:GetParameters\",\"ssm:GetParametersByPath\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}]}"
+              }
+            ],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+            ],
+            "max_session_duration": 3600,
+            "name": "ShoppingMallPodRole-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AROAU4HOS6UA35LW7SYK4"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "shopping_mall_policy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "ShoppingMallPodRole-335507813633-my-eks-shop-cluster:ShoppingMallPolicy-335507813633-my-eks-shop-cluster",
+            "name": "ShoppingMallPolicy-335507813633-my-eks-shop-cluster",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"rds:DescribeDBInstances\",\"rds:DescribeDBClusters\",\"rds:Connect\",\"elasticache:DescribeCacheClusters\",\"elasticache:DescribeReplicationGroups\",\"elasticache:Connect\",\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\",\"s3:ListBucket\",\"secretsmanager:GetSecretValue\",\"secretsmanager:DescribeSecret\",\"logs:CreateLogGroup\",\"logs:CreateLogStream\",\"logs:PutLogEvents\",\"logs:DescribeLogGroups\",\"logs:DescribeLogStreams\",\"ssm:GetParameter\",\"ssm:GetParameters\",\"ssm:GetParametersByPath\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}]}",
+            "role": "ShoppingMallPodRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.shopping_mall_role"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "cluster_policies",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "id": "YourEKSClusterRole-335507813633-my-eks-shop-cluster-20250909011040448500000007",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSBlockStoragePolicy",
+            "role": "YourEKSClusterRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_cluster"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "id": "YourEKSClusterRole-335507813633-my-eks-shop-cluster-2025090901104088920000000a",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+            "role": "YourEKSClusterRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_cluster"
+          ]
+        },
+        {
+          "index_key": 2,
+          "schema_version": 0,
+          "attributes": {
+            "id": "YourEKSClusterRole-335507813633-my-eks-shop-cluster-20250909011040616400000008",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSComputePolicy",
+            "role": "YourEKSClusterRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_cluster"
+          ]
+        },
+        {
+          "index_key": 3,
+          "schema_version": 0,
+          "attributes": {
+            "id": "YourEKSClusterRole-335507813633-my-eks-shop-cluster-2025090901104121370000000b",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSLoadBalancingPolicy",
+            "role": "YourEKSClusterRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_cluster"
+          ]
+        },
+        {
+          "index_key": 4,
+          "schema_version": 0,
+          "attributes": {
+            "id": "YourEKSClusterRole-335507813633-my-eks-shop-cluster-20250909011040658100000009",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSNetworkingPolicy",
+            "role": "YourEKSClusterRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_cluster"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "node_policies",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "id": "YourEKSNodeRole-335507813633-my-eks-shop-cluster-20250909011040116500000003",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+            "role": "YourEKSNodeRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_node"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "id": "YourEKSNodeRole-335507813633-my-eks-shop-cluster-20250909011040333400000005",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+            "role": "YourEKSNodeRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_node"
+          ]
+        },
+        {
+          "index_key": 2,
+          "schema_version": 0,
+          "attributes": {
+            "id": "YourEKSNodeRole-335507813633-my-eks-shop-cluster-20250909011040172500000004",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+            "role": "YourEKSNodeRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.eks_node"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "shopping_mall_ecr_policy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "ShoppingMallPodRole-335507813633-my-eks-shop-cluster-20250909011040377100000006",
+            "policy_arn": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+            "role": "ShoppingMallPodRole-335507813633-my-eks-shop-cluster"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_iam_role.shopping_mall_role"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "kubernetes_namespace",
+      "name": "shop",
+      "provider": "module.eks.provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "shop",
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {},
+                "name": "shop",
+                "resource_version": "2168",
+                "uid": "ad62a42c-be31-4e1d-93c8-83810ef411da"
+              }
+            ],
+            "timeouts": null,
+            "wait_for_default_service_account": false
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Namespace",
+            "name": "shop"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiZGVsZXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.eks",
+      "mode": "managed",
+      "type": "kubernetes_service_account",
+      "name": "shopping_mall",
+      "provider": "module.eks.provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "automount_service_account_token": true,
+            "default_secret_name": "",
+            "id": "shop/shopping-mall-sa",
+            "image_pull_secret": [],
+            "metadata": [
+              {
+                "annotations": {},
+                "generate_name": "",
+                "generation": 0,
+                "labels": {},
+                "name": "shopping-mall-sa",
+                "namespace": "shop",
+                "resource_version": "2171",
+                "uid": "b3f8e590-23e8-45f5-b7f7-28876bd12826"
+              }
+            ],
+            "secret": [],
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "ServiceAccount",
+            "name": "shopping-mall-sa",
+            "namespace": "shop"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.current",
+            "module.eks.aws_eks_addon.coredns",
+            "module.eks.aws_eks_addon.kube_proxy",
+            "module.eks.aws_eks_addon.pod_identity_agent",
+            "module.eks.aws_eks_addon.vpc_cni",
+            "module.eks.aws_eks_cluster.eks",
+            "module.eks.aws_eks_node_group.nodes",
+            "module.eks.aws_iam_role.eks_cluster",
+            "module.eks.aws_iam_role.eks_node",
+            "module.eks.aws_iam_role_policy_attachment.cluster_policies",
+            "module.eks.aws_iam_role_policy_attachment.node_policies",
+            "module.eks.kubernetes_namespace.shop",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.rds",
+      "mode": "managed",
+      "type": "aws_db_instance",
+      "name": "db",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "address": "my-eks-shop-cluster-db.cb0k6umqm9t7.ap-northeast-2.rds.amazonaws.com",
+            "allocated_storage": 20,
+            "allow_major_version_upgrade": null,
+            "apply_immediately": true,
+            "arn": "arn:aws:rds:ap-northeast-2:335507813633:db:my-eks-shop-cluster-db",
+            "auto_minor_version_upgrade": true,
+            "availability_zone": "ap-northeast-2c",
+            "backup_retention_period": 0,
+            "backup_target": "region",
+            "backup_window": "13:28-13:58",
+            "blue_green_update": [],
+            "ca_cert_identifier": "rds-ca-rsa2048-g1",
+            "character_set_name": "",
+            "copy_tags_to_snapshot": false,
+            "custom_iam_instance_profile": "",
+            "customer_owned_ip_enabled": false,
+            "database_insights_mode": "standard",
+            "db_name": "shopdb",
+            "db_subnet_group_name": "my-eks-shop-cluster-db-subnet-group",
+            "dedicated_log_volume": false,
+            "delete_automated_backups": true,
+            "deletion_protection": false,
+            "domain": "",
+            "domain_auth_secret_arn": "",
+            "domain_dns_ips": [],
+            "domain_fqdn": "",
+            "domain_iam_role_name": "",
+            "domain_ou": "",
+            "enabled_cloudwatch_logs_exports": [],
+            "endpoint": "my-eks-shop-cluster-db.cb0k6umqm9t7.ap-northeast-2.rds.amazonaws.com:3306",
+            "engine": "mysql",
+            "engine_lifecycle_support": "open-source-rds-extended-support",
+            "engine_version": "8.0",
+            "engine_version_actual": "8.0.42",
+            "final_snapshot_identifier": null,
+            "hosted_zone_id": "ZLA2NUCOLGUUR",
+            "iam_database_authentication_enabled": false,
+            "id": "db-LBRKWC7AXVYCOOUQMJSCFJA7VE",
+            "identifier": "my-eks-shop-cluster-db",
+            "identifier_prefix": "",
+            "instance_class": "db.t3.micro",
+            "iops": 3000,
+            "kms_key_id": "",
+            "latest_restorable_time": "",
+            "license_model": "general-public-license",
+            "listener_endpoint": [],
+            "maintenance_window": "sat:17:08-sat:17:38",
+            "manage_master_user_password": null,
+            "master_user_secret": [],
+            "master_user_secret_kms_key_id": null,
+            "max_allocated_storage": 0,
+            "monitoring_interval": 0,
+            "monitoring_role_arn": "",
+            "multi_az": false,
+            "nchar_character_set_name": "",
+            "network_type": "IPV4",
+            "option_group_name": "default:mysql-8-0",
+            "parameter_group_name": "default.mysql8.0",
+            "password": "passWord",
+            "password_wo": null,
+            "password_wo_version": null,
+            "performance_insights_enabled": false,
+            "performance_insights_kms_key_id": "",
+            "performance_insights_retention_period": 0,
+            "port": 3306,
+            "publicly_accessible": false,
+            "replica_mode": "",
+            "replicas": [],
+            "replicate_source_db": "",
+            "resource_id": "db-LBRKWC7AXVYCOOUQMJSCFJA7VE",
+            "restore_to_point_in_time": [],
+            "s3_import": [],
+            "skip_final_snapshot": true,
+            "snapshot_identifier": null,
+            "status": "available",
+            "storage_encrypted": false,
+            "storage_throughput": 125,
+            "storage_type": "gp3",
+            "tags": {
+              "Name": "my-eks-shop-cluster-db"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-db"
+            },
+            "timeouts": null,
+            "timezone": "",
+            "upgrade_storage_config": null,
+            "username": "admin",
+            "vpc_security_group_ids": [
+              "sg-038e19791877a2518"
+            ]
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "password_wo"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInVwZGF0ZSI6NDgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9",
+          "dependencies": [
+            "module.rds.aws_db_subnet_group.db",
+            "module.rds.aws_security_group.db",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.rds",
+      "mode": "managed",
+      "type": "aws_db_subnet_group",
+      "name": "db",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:rds:ap-northeast-2:335507813633:subgrp:my-eks-shop-cluster-db-subnet-group",
+            "description": "Managed by Terraform",
+            "id": "my-eks-shop-cluster-db-subnet-group",
+            "name": "my-eks-shop-cluster-db-subnet-group",
+            "name_prefix": "",
+            "subnet_ids": [
+              "subnet-0b539bfe5869b67f8",
+              "subnet-0baacecc2ecd21547"
+            ],
+            "supported_network_types": [
+              "IPV4"
+            ],
+            "tags": {
+              "Name": "my-eks-shop-cluster-db-subnet-group"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-db-subnet-group"
+            },
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.rds",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "db",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:security-group/sg-038e19791877a2518",
+            "description": "Security group for MySQL RDS instance",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-038e19791877a2518",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "10.10.0.0/16"
+                ],
+                "description": "Allow MySQL access from within the VPC",
+                "from_port": 3306,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 3306
+              }
+            ],
+            "name": "my-eks-shop-cluster-db-20250909005953433300000005",
+            "name_prefix": "my-eks-shop-cluster-db-",
+            "owner_id": "335507813633",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "my-eks-shop-cluster-db"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-db"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.redis",
+      "mode": "managed",
+      "type": "aws_elasticache_cluster",
+      "name": "redis",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "apply_immediately": null,
+            "arn": "arn:aws:elasticache:ap-northeast-2:335507813633:cluster:my-eks-shop-cluster-redis",
+            "auto_minor_version_upgrade": "true",
+            "availability_zone": "ap-northeast-2c",
+            "az_mode": "single-az",
+            "cache_nodes": [
+              {
+                "address": "my-eks-shop-cluster-redis.ljxdqv.0001.apn2.cache.amazonaws.com",
+                "availability_zone": "ap-northeast-2c",
+                "id": "0001",
+                "outpost_arn": "",
+                "port": 6379
+              }
+            ],
+            "cluster_address": null,
+            "cluster_id": "my-eks-shop-cluster-redis",
+            "configuration_endpoint": null,
+            "engine": "redis",
+            "engine_version": "7.0",
+            "engine_version_actual": "7.0.7",
+            "final_snapshot_identifier": null,
+            "id": "my-eks-shop-cluster-redis",
+            "ip_discovery": "ipv4",
+            "log_delivery_configuration": [],
+            "maintenance_window": "sun:05:00-sun:06:00",
+            "network_type": "ipv4",
+            "node_type": "cache.t3.micro",
+            "notification_topic_arn": null,
+            "num_cache_nodes": 1,
+            "outpost_mode": null,
+            "parameter_group_name": "my-eks-shop-cluster-redis-params",
+            "port": 6379,
+            "preferred_availability_zones": null,
+            "preferred_outpost_arn": "",
+            "replication_group_id": "",
+            "security_group_ids": [
+              "sg-08dd492efd4d3130a"
+            ],
+            "snapshot_arns": null,
+            "snapshot_name": null,
+            "snapshot_retention_limit": 7,
+            "snapshot_window": "04:00-05:00",
+            "subnet_group_name": "my-eks-shop-cluster-redis-subnet-group",
+            "tags": {
+              "Name": "my-eks-shop-cluster-redis"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-redis"
+            },
+            "timeouts": null,
+            "transit_encryption_enabled": false
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDAsInVwZGF0ZSI6NDgwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.redis.aws_elasticache_parameter_group.redis",
+            "module.redis.aws_elasticache_subnet_group.redis",
+            "module.redis.aws_security_group.redis",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.redis",
+      "mode": "managed",
+      "type": "aws_elasticache_parameter_group",
+      "name": "redis",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:elasticache:ap-northeast-2:335507813633:parametergroup:my-eks-shop-cluster-redis-params",
+            "description": "Managed by Terraform",
+            "family": "redis7",
+            "id": "my-eks-shop-cluster-redis-params",
+            "name": "my-eks-shop-cluster-redis-params",
+            "parameter": [
+              {
+                "name": "maxmemory-policy",
+                "value": "allkeys-lru"
+              }
+            ],
+            "tags": {
+              "Name": "my-eks-shop-cluster-redis-params"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-redis-params"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "module": "module.redis",
+      "mode": "managed",
+      "type": "aws_elasticache_subnet_group",
+      "name": "redis",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:elasticache:ap-northeast-2:335507813633:subnetgroup:my-eks-shop-cluster-redis-subnet-group",
+            "description": "Managed by Terraform",
+            "id": "my-eks-shop-cluster-redis-subnet-group",
+            "name": "my-eks-shop-cluster-redis-subnet-group",
+            "subnet_ids": [
+              "subnet-0b539bfe5869b67f8",
+              "subnet-0baacecc2ecd21547"
+            ],
+            "tags": {
+              "Name": "my-eks-shop-cluster-redis-subnet-group"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-redis-subnet-group"
+            },
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.redis",
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "redis",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:security-group/sg-08dd492efd4d3130a",
+            "description": "Security group for ElastiCache Redis",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-08dd492efd4d3130a",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "10.10.0.0/16"
+                ],
+                "description": "Allow Redis access from within the VPC",
+                "from_port": 6379,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 6379
+              }
+            ],
+            "name": "my-eks-shop-cluster-redis-20250909005953433800000006",
+            "name_prefix": "my-eks-shop-cluster-redis-",
+            "owner_id": "335507813633",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "my-eks-shop-cluster-redis"
+            },
+            "tags_all": {
+              "Name": "my-eks-shop-cluster-redis"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_eip",
+      "name": "nat_eip",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": null,
+            "allocation_id": "eipalloc-0f1db75f28753c751",
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:elastic-ip/eipalloc-0f1db75f28753c751",
+            "associate_with_private_ip": null,
+            "association_id": "eipassoc-053cea152be258af9",
+            "carrier_ip": "",
+            "customer_owned_ip": "",
+            "customer_owned_ipv4_pool": "",
+            "domain": "vpc",
+            "id": "eipalloc-0f1db75f28753c751",
+            "instance": "",
+            "ipam_pool_id": null,
+            "network_border_group": "ap-northeast-2",
+            "network_interface": "eni-02f8cdd7dea75b10c",
+            "private_dns": "ip-10-10-1-105.ap-northeast-2.compute.internal",
+            "private_ip": "10.10.1.105",
+            "ptr_record": "",
+            "public_dns": "ec2-43-200-152-153.ap-northeast-2.compute.amazonaws.com",
+            "public_ip": "43.200.152.153",
+            "public_ipv4_pool": "amazon",
+            "tags": {
+              "Environment": "dev",
+              "Name": "NAT-EIP"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "NAT-EIP"
+            },
+            "timeouts": null,
+            "vpc": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiZGVsZXRlIjoxODAwMDAwMDAwMDAsInJlYWQiOjkwMDAwMDAwMDAwMCwidXBkYXRlIjozMDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_internet_gateway",
+      "name": "igw",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:internet-gateway/igw-0e5181c15c62846dd",
+            "id": "igw-0e5181c15c62846dd",
+            "owner_id": "335507813633",
+            "tags": {
+              "Environment": "dev",
+              "Name": "MyVPC-IGW"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "MyVPC-IGW"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_nat_gateway",
+      "name": "nat",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "allocation_id": "eipalloc-0f1db75f28753c751",
+            "association_id": "eipassoc-053cea152be258af9",
+            "connectivity_type": "public",
+            "id": "nat-073ea2b1671d2581e",
+            "network_interface_id": "eni-02f8cdd7dea75b10c",
+            "private_ip": "10.10.1.105",
+            "public_ip": "43.200.152.153",
+            "secondary_allocation_ids": [],
+            "secondary_private_ip_address_count": 0,
+            "secondary_private_ip_addresses": [],
+            "subnet_id": "subnet-0fc3462a545a1041d",
+            "tags": {
+              "Environment": "dev",
+              "Name": "NAT-GW"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "NAT-GW"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTgwMDAwMDAwMDAwMCwidXBkYXRlIjo2MDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "module.vpc.aws_eip.nat_eip",
+            "module.vpc.aws_internet_gateway.igw",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "private",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:route-table/rtb-0cc039baa7fd7cb2a",
+            "id": "rtb-0cc039baa7fd7cb2a",
+            "owner_id": "335507813633",
+            "propagating_vgws": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "core_network_arn": "",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "nat-073ea2b1671d2581e",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Environment": "dev",
+              "Name": "Private-RT"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "Private-RT"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_eip.nat_eip",
+            "module.vpc.aws_internet_gateway.igw",
+            "module.vpc.aws_nat_gateway.nat",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table",
+      "name": "public",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:route-table/rtb-095273ac8a96176ac",
+            "id": "rtb-095273ac8a96176ac",
+            "owner_id": "335507813633",
+            "propagating_vgws": [],
+            "route": [
+              {
+                "carrier_gateway_id": "",
+                "cidr_block": "0.0.0.0/0",
+                "core_network_arn": "",
+                "destination_prefix_list_id": "",
+                "egress_only_gateway_id": "",
+                "gateway_id": "igw-0e5181c15c62846dd",
+                "ipv6_cidr_block": "",
+                "local_gateway_id": "",
+                "nat_gateway_id": "",
+                "network_interface_id": "",
+                "transit_gateway_id": "",
+                "vpc_endpoint_id": "",
+                "vpc_peering_connection_id": ""
+              }
+            ],
+            "tags": {
+              "Environment": "dev",
+              "Name": "Public-RT"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "Public-RT"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_internet_gateway.igw",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "private1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-00aebced3ead895c5",
+            "route_table_id": "rtb-0cc039baa7fd7cb2a",
+            "subnet_id": "subnet-0baacecc2ecd21547",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_eip.nat_eip",
+            "module.vpc.aws_internet_gateway.igw",
+            "module.vpc.aws_nat_gateway.nat",
+            "module.vpc.aws_route_table.private",
+            "module.vpc.aws_subnet.private1",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "private2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-0cae7777f4c26d464",
+            "route_table_id": "rtb-0cc039baa7fd7cb2a",
+            "subnet_id": "subnet-0b539bfe5869b67f8",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_eip.nat_eip",
+            "module.vpc.aws_internet_gateway.igw",
+            "module.vpc.aws_nat_gateway.nat",
+            "module.vpc.aws_route_table.private",
+            "module.vpc.aws_subnet.private2",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "public1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-066bd064f99d2da3b",
+            "route_table_id": "rtb-095273ac8a96176ac",
+            "subnet_id": "subnet-0fc3462a545a1041d",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_internet_gateway.igw",
+            "module.vpc.aws_route_table.public",
+            "module.vpc.aws_subnet.public1",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_route_table_association",
+      "name": "public2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "gateway_id": "",
+            "id": "rtbassoc-09325d97ceeba47cf",
+            "route_table_id": "rtb-095273ac8a96176ac",
+            "subnet_id": "subnet-0ebd02cda259e72d5",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjEyMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.vpc.aws_internet_gateway.igw",
+            "module.vpc.aws_route_table.public",
+            "module.vpc.aws_subnet.public2",
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "private1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:subnet/subnet-0baacecc2ecd21547",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "ap-northeast-2a",
+            "availability_zone_id": "apne2-az1",
+            "cidr_block": "10.10.11.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0baacecc2ecd21547",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "335507813633",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "Name": "Private-Subnet-1",
+              "kubernetes.io/cluster/eks-cluster": "shared",
+              "kubernetes.io/role/internal-elb": "1"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "Private-Subnet-1",
+              "kubernetes.io/cluster/eks-cluster": "shared",
+              "kubernetes.io/role/internal-elb": "1"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "private2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:subnet/subnet-0b539bfe5869b67f8",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "ap-northeast-2c",
+            "availability_zone_id": "apne2-az3",
+            "cidr_block": "10.10.12.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0b539bfe5869b67f8",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": false,
+            "outpost_arn": "",
+            "owner_id": "335507813633",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "Name": "Private-Subnet-2",
+              "kubernetes.io/cluster/eks-cluster": "shared",
+              "kubernetes.io/role/internal-elb": "1"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "Private-Subnet-2",
+              "kubernetes.io/cluster/eks-cluster": "shared",
+              "kubernetes.io/role/internal-elb": "1"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "public1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:subnet/subnet-0fc3462a545a1041d",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "ap-northeast-2a",
+            "availability_zone_id": "apne2-az1",
+            "cidr_block": "10.10.1.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0fc3462a545a1041d",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "335507813633",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "Name": "Public-Subnet-1",
+              "kubernetes.io/cluster/eks-cluster": "shared",
+              "kubernetes.io/role/elb": "1"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "Public-Subnet-1",
+              "kubernetes.io/cluster/eks-cluster": "shared",
+              "kubernetes.io/role/elb": "1"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_subnet",
+      "name": "public2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:subnet/subnet-0ebd02cda259e72d5",
+            "assign_ipv6_address_on_creation": false,
+            "availability_zone": "ap-northeast-2c",
+            "availability_zone_id": "apne2-az3",
+            "cidr_block": "10.10.2.0/24",
+            "customer_owned_ipv4_pool": "",
+            "enable_dns64": false,
+            "enable_lni_at_device_index": 0,
+            "enable_resource_name_dns_a_record_on_launch": false,
+            "enable_resource_name_dns_aaaa_record_on_launch": false,
+            "id": "subnet-0ebd02cda259e72d5",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_association_id": "",
+            "ipv6_native": false,
+            "map_customer_owned_ip_on_launch": false,
+            "map_public_ip_on_launch": true,
+            "outpost_arn": "",
+            "owner_id": "335507813633",
+            "private_dns_hostname_type_on_launch": "ip-name",
+            "tags": {
+              "Environment": "dev",
+              "Name": "Public-Subnet-2",
+              "kubernetes.io/cluster/eks-cluster": "shared",
+              "kubernetes.io/role/elb": "1"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "Public-Subnet-2",
+              "kubernetes.io/cluster/eks-cluster": "shared",
+              "kubernetes.io/role/elb": "1"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-0f01002dc010c4797"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.vpc.aws_vpc.main"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vpc",
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-northeast-2:335507813633:vpc/vpc-0f01002dc010c4797",
+            "assign_generated_ipv6_cidr_block": false,
+            "cidr_block": "10.10.0.0/16",
+            "default_network_acl_id": "acl-0f3c73a7d36f434a5",
+            "default_route_table_id": "rtb-03f60b68e0738d2f2",
+            "default_security_group_id": "sg-003589719d2e0d213",
+            "dhcp_options_id": "dopt-0ae639c5a77d7901b",
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "enable_network_address_usage_metrics": false,
+            "id": "vpc-0f01002dc010c4797",
+            "instance_tenancy": "default",
+            "ipv4_ipam_pool_id": null,
+            "ipv4_netmask_length": null,
+            "ipv6_association_id": "",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_network_border_group": "",
+            "ipv6_ipam_pool_id": "",
+            "ipv6_netmask_length": 0,
+            "main_route_table_id": "rtb-03f60b68e0738d2f2",
+            "owner_id": "335507813633",
+            "tags": {
+              "Environment": "dev",
+              "Name": "MyVPC"
+            },
+            "tags_all": {
+              "Environment": "dev",
+              "Name": "MyVPC"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
